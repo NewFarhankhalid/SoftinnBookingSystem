@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace SoftinnBookingSystem.Controllers
 {
-    public class DriversController : Controller
+    public class DriversController : BaseController
     {
         // GET: Drivers
         public ActionResult Index()

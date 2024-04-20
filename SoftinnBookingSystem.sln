@@ -5,6 +5,12 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftinnBookingSystem", "SoftinnBookingSystem\SoftinnBookingSystem.csproj", "{55F106F5-5F77-448A-A199-D42B2D5BA0C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftinnBookingSystem.Models", "SoftinnBookingSystem.Models\SoftinnBookingSystem.Models.csproj", "{55EB63A1-C5C2-45B2-95E9-E5F05C2E824E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftinnBookingSystem.BusniessLayer", "SoftinnBookingSystem.BusniessLayer\SoftinnBookingSystem.BusniessLayer.csproj", "{623F8A19-EA2D-4C63-B1C4-035B58B7C578}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftinnBookingSystem.APIs", "SoftinnBookingSystem.APIs\SoftinnBookingSystem.APIs.csproj", "{CECCEACC-E33C-4E5D-8D40-3F008520DEA4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +21,18 @@ Global
 		{55F106F5-5F77-448A-A199-D42B2D5BA0C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55F106F5-5F77-448A-A199-D42B2D5BA0C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55F106F5-5F77-448A-A199-D42B2D5BA0C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55EB63A1-C5C2-45B2-95E9-E5F05C2E824E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55EB63A1-C5C2-45B2-95E9-E5F05C2E824E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55EB63A1-C5C2-45B2-95E9-E5F05C2E824E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55EB63A1-C5C2-45B2-95E9-E5F05C2E824E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{623F8A19-EA2D-4C63-B1C4-035B58B7C578}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{623F8A19-EA2D-4C63-B1C4-035B58B7C578}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{623F8A19-EA2D-4C63-B1C4-035B58B7C578}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{623F8A19-EA2D-4C63-B1C4-035B58B7C578}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CECCEACC-E33C-4E5D-8D40-3F008520DEA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CECCEACC-E33C-4E5D-8D40-3F008520DEA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CECCEACC-E33C-4E5D-8D40-3F008520DEA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CECCEACC-E33C-4E5D-8D40-3F008520DEA4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace SoftinnBookingSystem.Controllers
 {
-    public class CompaniesController : Controller
+    public class CompaniesController : BaseController
     {
         // GET: Companies
         public ActionResult Index()

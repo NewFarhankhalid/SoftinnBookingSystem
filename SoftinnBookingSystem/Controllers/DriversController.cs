@@ -29,8 +29,8 @@ namespace SoftinnBookingSystem.Controllers
             {
                 if (Com.DriverID == 0)
                 {
-                    string Query = "Insert into Drivers (DriverName,Carrier,DriverEmail,DriverPhone,DriverAddress) ";
-                    Query = Query + "Values ('" + Com.DriverName + "','" + Com.Carrier + "','" + Com.DriverEmail + "','" + Com.DriverPhone + "','" + Com.DriverAddress + "')";
+                    string Query = "Insert into Drivers (DriverName) ";
+                    Query = Query + "Values ('" + Com.DriverName + "')";
                     General.ExecuteNonQuery(Query);
                 }
                 else
@@ -39,10 +39,6 @@ namespace SoftinnBookingSystem.Controllers
                     string Query = "";
                     Query = Query + "UPDATE [dbo].[Drivers] ";
                     Query = Query + " SET    [DriverName] ='" + Com.DriverName + "' ";
-                    Query = Query + " SET    [Carrier] ='" + Com.Carrier + "' ";
-                    Query = Query + " SET    [DriverEmail] ='" + Com.DriverEmail + "' ";
-                    Query = Query + " SET    [DriverPhone] ='" + Com.DriverPhone + "' ";
-                    Query = Query + " SET    [DriverAddress] ='" + Com.DriverAddress + "' ";
                     Query = Query + "WHERE DriverID=" + Com.DriverID;
                     General.ExecuteNonQuery(Query);
                 }

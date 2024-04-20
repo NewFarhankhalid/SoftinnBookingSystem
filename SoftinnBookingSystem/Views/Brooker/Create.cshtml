@@ -1,0 +1,121 @@
+﻿@model SoftinnBookingSystem.Models.Brooker
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">Brooker</h3>
+    </div>
+    </div>
+
+@Html.AntiForgeryToken()
+
+<div class="box-body">
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.BrookerID)
+        <div class="row">
+            <div class="col-md-12">
+                <table style="width:100%">
+                    <tr style="padding:0px">
+                        <td>
+                            <div class="col-md-6">
+                                @Html.Label("BrookerMC#", htmlAttributes: new { @class = "control-label required" })
+                                @Html.EditorFor(model => model.BrookerMC, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.BrookerMC, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6">
+                                @Html.Label("Broker USDOT", htmlAttributes: new { @class = "control-label " })
+                                @Html.EditorFor(model => model.BrookerUsDot, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.BrookerUsDot, "", new { @class = "text-danger" })
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="col-md-6">
+                                @Html.Label("Broker Business Name", htmlAttributes: new { @class = "control-label required" })
+                                @Html.EditorFor(model => model.BrookerBusinessName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.BrookerBusinessName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6">
+                                @Html.Label("Broker Email", htmlAttributes: new { @class = "control-label " })
+                                @Html.EditorFor(model => model.BrookerEmail, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.BrookerEmail, "", new { @class = "text-danger" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="col-md-6">
+                                @Html.Label("Broker Phone", htmlAttributes: new { @class = "control-label " })
+                                @Html.EditorFor(model => model.BrookerPhone, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.BrookerPhone, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6">
+                                @Html.Label("Broker Fax", htmlAttributes: new { @class = "control-label " })
+                                @Html.EditorFor(model => model.BrookerFax, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.BrookerFax, "", new { @class = "text-danger" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="col-md-12">
+                                @Html.Label("Broker Address", htmlAttributes: new { @class = "control-label " })
+                                @Html.EditorFor(model => model.BrookerAddress, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.BrookerAddress, "", new { @class = "text-danger" })
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-success float-right" onclick="SaveRecord()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function SaveRecord() {
+        var Brooker = {}
+        Brooker.BrookerID = $("#BrookerID").val();
+        Brooker.BrookerMC = $("#BrookerMC").val();
+        Brooker.BrookerUsDot = $("#BrookerUsDot").val();
+        Brooker.BrookerBusinessName = $("#BrookerBusinessName").val();
+        Brooker.BrookerEmail = $("#BrookerEmail").val();
+        Brooker.BrookerPhone = $("#BrookerPhone").val();
+        Brooker.BrookerFax = $("#BrookerFax").val();
+        Brooker.BrookerAddress = $("#BrookerAddress").val();
+
+        if (Brooker.BrookerMC == "" || Brooker.BrookerMC == null || Brooker.BrookerMC == 0) {
+            Bootbox.alert("Please Enter BrokerMC#");
+            return
+        }
+        if (Brooker.BrookerBusinessName == "" || Brooker.BrookerBusinessName == null || Brooker.BrookerBusinessName == 0) {
+            Bootbox.alert("Please Enter Brooker Business Name");
+            return
+        }
+        $.ajax({
+            type: "Post",
+            URL: "Brooker/Create/",
+            data: json.stringify({ br }),
+            contentType: "application/json; charset=utf-8",
+            dataType: JSON,
+            Success: function (r) {
+                window.location.href = "/Brooker/Index";
+            },
+            error: function (x, e) {
+                Bootbox.alert("Error");
+            },
+        });
+    }
+
+</script>
+

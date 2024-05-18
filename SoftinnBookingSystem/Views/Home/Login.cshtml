@@ -1,0 +1,246 @@
+﻿@model SoftinnBookingSystem.Models.Login
+
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+    @*<link rel="icon" type="image/png" href="../assets/img/Rumanza Logo1.png">*@
+    <title>
+        Logistic App
+    </title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <!-- Nucleo Icons -->
+    <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- CSS Files -->
+    <link id="pagestyle" href="../assets/css/soft-ui-dashboard.css?v=1.0.6" rel="stylesheet" />
+    <link href="~/Content/toastr.css" rel="stylesheet" />
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+
+
+    <style>
+        .password-input-container {
+            position: relative;
+        }
+
+        .password-input,
+        .toggle-password {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .toggle-password {
+            cursor: pointer;
+        }
+
+            .toggle-password i {
+                font-size: 1.2em;
+                color: #999;
+            }
+
+                .toggle-password i:hover {
+                    color: #333;
+                }
+
+        .py-5 {
+            padding-top: 3rem !important;
+            padding-bottom: 0rem !important;
+        }
+    </style>
+</head>
+<body class="">
+    <!-- Navbar -->
+    <!-- End Navbar -->
+    <main class="main-content  mt-0">
+        <section @*class="mb-8"*@>
+            <div class="page-header align-items-start  pt-0 pb-5  border-radius-lg" style="min-height: 35vh !important;">
+            </div>
+            <div class="container">
+                <div class="row mt-lg-n10 mt-md-n11 mt-n10">
+                    <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
+                        <div class="card z-index-0">
+
+                            <!--<div class="row">
+
+        <div class="col-md-12">-->
+                            @*<img src="~/assets/img/Rumanza Logo1.png" />*@
+                            <!--<img src="../assets/img/Rumanza Logo1.png" style=" display: block;margin-left: auto;margin-right: auto;" height="150">
+        </div>
+    </div>-->
+
+                           
+                              
+
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @*<h4 class="text-center" style="color: green;">RUMANZA MEMBERS AREA</h4>*@
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    @using (Html.BeginForm("Login", "Home"))
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                    <form role="form" class="text-left">
+
+                                        <div class="panel-heading">
+                                            <h4 class="text-center">Login to <strong class="text-custom">Dispatch App</strong></h4>
+                                        </div>
+
+
+                                        <div class="mb-3">
+                                            <div class="input-group">
+                                                <!-- Added input-group -->
+                                                @Html.EditorFor(model => model.UserEmail, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Email" } })
+                                                <div class="input-group-append">
+                                                    <!-- Use input-group-append instead of input-group-addon -->
+                                                    <span class="input-group-text envelope-icon">
+                                                        <!-- Added input-group-text and custom class -->
+                                                        <i class="fa fa-envelope"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        @Html.ValidationMessageFor(model => model.UserEmail, "", new { @class = "text-danger" })
+                                        <div class="mb-3">
+                                            <div class="password-input-container d-flex align-items-center">
+                                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control password-input", @type = "password", @placeholder = "Password" } })
+                                                <span class="toggle-password ms-2" onclick="togglePasswordVisibility()">
+                                                    <i class="fa fa-eye form-control" aria-hidden="true"></i>
+                                                </span>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                        </div>
+                                        @*<p class="text-left text-danger" style="margin:0px">* Use Membership No as User Name</p>
+        <p class="text-left text-danger">* If password doesn't change use CNIC as your password</p>*@
+                                        <div class="text-center">
+                                            <button type="submit" class="btn  w-100 my-4 mb-2" style="color:white; background-color: green;">Login</button>
+                                        </div>
+                                        @*<p class="text-sm mt-3 mb-0">Designed and Developed by  <a href="#/" style="color: green;">RUMANZA IT TEAM</a></p>*@
+                                    </form>
+                                    }
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- -------- START FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
+        @*<footer class="footer py-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mb-4 mx-auto text-center">
+                        Copyright ©
+                        <script>
+                            document.write(new Date().getFullYear())
+                        </script> <img src="../assets/img/Rumanza Logo1.png" height="50">
+                    </div>
+
+                </div>
+
+            </div>
+        </footer>*@
+        <!-- -------- END FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
+    </main>
+    <!--   Core JS Files   -->
+    <script src="../assets/js/core/popper.min.js"></script>
+    <script src="../assets/js/core/bootstrap.min.js"></script>
+    <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="~/Scripts/jquery-3.7.1.min.js"></script>
+
+
+    <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- iCheck -->
+    <script src="../../plugins/iCheck/icheck.min.js"></script>
+
+    <script>
+        var win = navigator.platform.indexOf('Win') > -1;
+        if (win && document.querySelector('#sidenav-scrollbar')) {
+            var options = {
+                damping: '0.5'
+            }
+            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+        }
+    </script>
+    <!-- Github buttons -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="../assets/js/soft-ui-dashboard.min.js?v=1.0.6"></script>
+    <script src="~/Scripts/toastr.js"></script>
+    @if (ViewBag.Message != "")
+    {
+        <script type="text/javascript">
+            displayToastMessage('@ViewBag.Message', 'Error', 'error');
+            function displayToastMessage(title, message, type) {
+                // Set up Toastr options
+                var options = {
+                    closeButton: true,
+                    progressBar: true,
+                    timeOut: 8000, // Set the duration of the toast
+                    extendedTimeOut: 1000, // Set the extended duration for when the toast is hovered
+                    onclick: null,
+                    positionClass: 'toast-top-right',
+                    preventDuplicates: false, // Allow multiple toasts
+                    // Specify custom CSS class for light color theme
+                    toastClass: 'toastr-light',
+                };
+
+                // Show Toastr
+                var toastrInstance = toastr[type](message, title, options);
+
+                // Add progress number
+                var progressBar = $(toastrInstance).find('.toast-progress');
+
+                var progress = 0;
+                var interval = setInterval(function () {
+                    progress += 1;
+                    progressBar.attr('value', progress);
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                    }
+                }, (options.timeOut + options.extendedTimeOut) / 100); // Increment progress based on timeOut and extendedTimeOut
+            }
+
+        </script>
+    }
+    <script>
+        function togglePasswordVisibility() {
+            var passwordInput = document.getElementById("Password");
+            var eyeIcon = document.querySelector(".toggle-password i");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                eyeIcon.classList.remove("fa-eye");
+                eyeIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                eyeIcon.classList.remove("fa-eye-slash");
+                eyeIcon.classList.add("fa-eye");
+            }
+        }
+    </script>
+</body>
+
+</html>
+
+
+
+

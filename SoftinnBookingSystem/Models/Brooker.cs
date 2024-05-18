@@ -9,11 +9,11 @@ namespace SoftinnBookingSystem.Models
     {
         public int BrookerID { get; set; }
         public string BrookerMC { get; set; }
-        public string BrookerUsDot { get; }
+        public string BrookerUsDot { get; set; }
         public string BrookerBusinessName { get; set; }
         public string BrookerEmail { get; set; }
-        public string BrookerPhone { get; }
-        public string BrookerFax { get; }
-        public string BrookerAddress { get; }
+        public string BrookerPhone { get; set; }
+        public string BrookerFax { get; set; }
+        public string BrookerAddress { get; set; }
     }
 }

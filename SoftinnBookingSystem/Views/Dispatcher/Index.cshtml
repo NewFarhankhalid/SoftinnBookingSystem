@@ -1,0 +1,212 @@
+﻿@model IEnumerable<SoftinnBookingSystem.Models.Dispatcher>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+
+<section class="content">
+    <div class="box-body">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <span class="dripicons-user-group vertical-middle"></span>
+                            <h2 class="card-title">Dispatchers</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="card-body">
+    <div class="form-horizontal">
+        <div class="box-body">
+            <div class="row">
+                <h6>Dispatcher Settings</h6>
+            </div>
+            <div class="col-md-6">
+                @Html.Label("Select a Dispatcher", htmlAttributes: new { @class = "control-label " })
+                @Html.DropDownList("UserID", (SelectList)ViewBag.Users, "Select a Dispatcher", htmlAttributes: new { @class = "form-control Select2", id = "userDropdown" })
+                @Html.ValidationMessage("UserID", "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div id="settings" style="display: none;">
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.Label("Base Salary", htmlAttributes: new { @class = "control-label " })
+                    <div class="input-group">
+                        @Html.Editor("BaseSalary", new { htmlAttributes = new { @class = "form-control" } })
+                        <div class="input-group-append">
+                            <span class="input-group-text">PKR</span>
+                        </div>
+                    </div>
+                    @Html.ValidationMessage("BaseSalary", "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3">
+                    @Html.Label("Fuel Allowance", htmlAttributes: new { @class = "control-label " })
+                    <div class="input-group">
+                        @Html.Editor("FuelAllowance", new { htmlAttributes = new { @class = "form-control" } })
+                        <div class="input-group-append">
+                            <span class="input-group-text">PKR</span>
+                        </div>
+                    </div>
+                    @Html.ValidationMessage("FuelAllowance", "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3">
+                    @Html.Label("Commission Percentage", htmlAttributes: new { @class = "control-label " })
+                    <div class="input-group">
+                        @Html.Editor("CommissionPercentage", new { htmlAttributes = new { @class = "form-control" } })
+                        <div class="input-group-append">
+                            <span class="input-group-text">%</span>
+                        </div>
+                    </div>
+                    @Html.ValidationMessage("Commission Percentage", "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3">
+                    @Html.Label("Discord Tag", htmlAttributes: new { @class = "control-label " })
+                    @Html.Editor("DiscordTag", new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessage("DiscordTag", "", new { @class = "text-danger" })
+                </div>
+                <br />
+                <br />
+                <br />
+                <br />
+                <div class="col-md-6">
+                    @Html.Label("Assigned Booking Agents", htmlAttributes: new { @class = "control-label " })
+                    @Html.DropDownList("BookingAgent", (SelectList)ViewBag.BookingAgent, "Select..", htmlAttributes: new { @class = "form-control Select2", id = "BookingAgent" })
+                    @Html.ValidationMessage("BookingAgent", "", new { @class = "text-danger" })
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <button type="button" class="btn btn-success float-right" id="savebutton" onclick="SaveRecord()">Save</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- Include jQuery Library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Include Bootbox Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Bootbox JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+        $('#userDropdown').change(function () {
+            var selectedValue = $(this).val();
+            if (selectedValue != "" && selectedValue != null) {
+                $('#settings').show();
+            } else {
+                $('#settings').hide();
+            }
+        });
+    });
+
+
+
+
+
+
+
+
+    $(document).ready(function () {
+
+
+        $('#saveButton').click(function () {
+            // Your AJAX request here
+
+            // After the AJAX request is successful, reload the page
+            location.reload();
+        });
+        $('#userDropdown').change(function () {
+            var selectedUserId = $(this).val();
+
+            // Make AJAX call to fetch dispatcher info
+            $.ajax({
+                type: "GET",
+                url: "/Dispatcher/GetDispatcherInfo/" + selectedUserId,
+                success: function (data) {
+                    // Update fields with fetched information
+                    $('#BaseSalary').val(data.BaseSalary);
+                    $('#FuelAllowance').val(data.FuelAllowance);
+                    $('#CommissionPercentage').val(data.CommissionPercentage);
+                    $('#DiscordTag').val(data.DiscordTag);
+                    $('#BookingAgent').val(data.BookingAgent);
+
+                },
+                error: function () {
+                    alert('Error fetching dispatcher information.');
+                }
+            });
+        });
+    });
+
+
+
+
+    function SaveRecord() {
+        var objdispatcher = {
+            BaseSalary: $("#BaseSalary").val(),
+            FuelAllowance: $("#FuelAllowance").val(),
+            CommissionPercentage: $("#CommissionPercentage").val(),
+            DiscordTag: $("#DiscordTag").val(),
+            BookingAgent: $("#BookingAgent").val()
+        };
+
+        var userID = $("#userDropdown").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Dispatcher/Save",
+            data: { objdispatcher, UserID: userID },
+            success: function (response) {
+                // Handle success
+                location.reload();
+            },
+            error: function (xhr, status, error) {
+                // Handle error
+                console.log("Error:", error);
+            }
+        });
+    }
+
+
+
+
+
+
+
+</script>
+

@@ -12,7 +12,6 @@ namespace SoftinnBookingSystem.Models
         public string Carrier { get; set; }
         public string DriverEmail { get; set; }
         public string DriverPhone { get; set; }
-        public string Address { get; set; }
-
+        public string DriverAddress { get; set; }
     }
 }

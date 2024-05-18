@@ -1,0 +1,330 @@
+﻿@model IEnumerable<SoftinnBookingSystem.Models.Load>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-header">
+            <h5 class="page-title" style="display: inline;">📚 All Loads</h5>
+            <a href="/Load/Create" class="btn btn-primary waves-effect waves-light" style="display: inline;">Add New</a>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+<br />
+<br />
+
+<div class="row">
+    <div class="card-box">
+        <h5>⏳ Filters</h5>
+    </div>
+</div>
+
+<div class="box-body">
+    <div class="form-horizontal">
+        <div class="row">
+
+            <div class="col-md-1">
+                @Html.Label("ID", htmlAttributes: new { @class = "control-label " })
+                @Html.Editor("LoadID", new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessage("LoadID", "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2">
+                @Html.Label("Load Status", htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownList("Load", (SelectList)ViewBag.Load, "Select", htmlAttributes: new { @class = "form-control Select2", @id = "Load" })
+                @Html.ValidationMessage("Load", "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2">
+                @Html.Label("Dispatcher", htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownList("Dispatcher", (SelectList)ViewBag.Dispatcher, "Select", htmlAttributes: new { @class = "form-control Select2", @id = "Dispatcher" })
+                @Html.ValidationMessage("Dispatcher", "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2">
+                @Html.Label("Invoice Status", htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownList("InvoiceStatus", (SelectList)ViewBag.Invoice, "Select", htmlAttributes: new { @class = "form-control Select2", @id = "InvoiceStatus" })
+                @Html.ValidationMessage("InvoiceStatus", "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2">
+                @Html.Label("Broker", htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownList("Broker", (SelectList)ViewBag.Broker, "Select", htmlAttributes: new { @class = "form-control Select2", @id = "Broker" })
+                @Html.ValidationMessage("Broker", "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2">
+                @Html.Label("Driver", htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownList("Driver", (SelectList)ViewBag.Driver, "Select", htmlAttributes: new { @class = "form-control Select2", @id = "Driver" })
+                @Html.ValidationMessage("Driver", "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-1">
+                @Html.Label("Rate", htmlAttributes: new { @class = "control-label " })
+                @Html.Editor("LoadRate", new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessage("LoadRate", "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="box-body">
+    <div class="form-horizontal">
+        <div class="row">
+
+            <div class="col-md-2">
+                @Html.Label("From Pickup Date", htmlAttributes: new { @class = "control-label " })
+                <div class="input-group date" id="fromPickupDate">
+                    @Html.Editor("LoadPickupDateTime", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                    <div class="input-group-append">
+                        <span class="input-group-text">
+                           
+                        </span>
+                    </div>
+                </div>
+                @Html.ValidationMessage("LoadPickupDateTime", "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2">
+                @Html.Label("To Pickup Date", htmlAttributes: new { @class = "control-label " })
+                <div class="input-group date" id="toPickupDate">
+                    @Html.Editor("LoadDropOffDateTime", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                    <div class="input-group-append">
+                        <span class="input-group-text">
+                         
+                        </span>
+                    </div>
+                </div>
+                @Html.ValidationMessage("LoadDropOffDateTime", "", new { @class = "text-danger" })
+            </div>
+
+
+
+
+            <div class="col-md-7">
+                <div>
+                    <label>Presets</label>
+                </div>
+                <div class="d-inline-block">
+                    <button class="preset-button mr-1 btn waves-effect waves-light text-left btn-orange" data-preset="today">🕓 Today</button>
+                    <button class="preset-button mr-1 btn waves-effect waves-light text-left btn-light" data-preset="yesterday">🕓 Yesterday</button>
+                    <button class="preset-button mr-1 btn waves-effect waves-light text-left btn-light" data-preset="last_7_days">🕓 Last 7 Days</button>
+                    <button class="preset-button mr-1 btn waves-effect waves-light text-left btn-light" data-preset="current_month">🕓 Current Month</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model != null)
+{
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                @*<a href="@Url.Action("Create" , "Brooker")" class="btn btn-primary ml-2" role="button">New</a>
+                    <br>
+                    <br>*@
+
+                <table class="table table-hover table-bordered table-condensed" id="Broker">
+
+                    <thead>
+                        <tr>
+
+                            <th>ID#</th>
+                            <th>Pickup Date</th>
+                            <th>Value</th>
+                            <th>Payable</th>
+                            <th>RPM</th>
+                            <th>Do Date</th>
+                            <th>Origin</th>
+                            <th>Destination</th>
+                            <th>Date Paid</th>
+                            <th>Payment Method</th>
+                            <th>Date Created</th>
+                            <th>Booking agent</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody >
+
+                        @foreach (var Load in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="copy-container">
+                                        <i class="far fa-copy copy-icon"></i>
+                                        <span class="copy-text">@Load.LoadID</span>
+                                    </div>
+                                </td>
+
+                                <td>@Load.LoadPickupDateTime</td>
+                                <td>@Load.LoadRate</td>
+                                <td>@Load.ID</td>
+                                <td>@Load.ID</td>
+                                <td>@Load.ID</td>
+                                <td>@Load.LoadOrigin</td>
+                                <td>@Load.LoadDestination</td>
+                                <td>@Load.ID</td>
+                                <td>@Load.PaymentType</td>
+                                <td>
+                                    @if (Load.DateCreated == DateTime.MinValue)
+                                    {
+                                        @:N/A
+                                    }
+                                    else
+                                    {
+                                        @Load.DateCreated.ToString("yyyy-MM-dd")
+                                    }
+                                </td>
+                                <td>@Load.BookingAgent</td>
+                                <td>@Load.ID</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary" onclick="location.href='/Load/LoadDetails@Load.ID'">Details</button>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+            </div>
+            <!-- /.col-md-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+}
+else
+{
+    <p>No data available.</p> <!-- Display a message if the model is null -->
+}
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+
+  $("#LoadPickupDateTime").val('@ViewBag.LoadPickupDateTime');
+$("#LoadDropOffDateTime").val('@ViewBag.LoadDropOffDateTime');
+
+
+ @*$(document).ready(function () {
+    $('#fromPickupDate').datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        todayHighlight: true
+    }).datepicker('setDate', '@ViewBag.LoadPickupDateTime');
+
+    $('#toPickupDate').datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        todayHighlight: true
+    }).datepicker('setDate', '@ViewBag.LoadDropOffDateTime');
+});*@
+
+
+    $(document).ready(function () {
+        $(".preset-button").click(function () {
+            var preset = $(this).data("preset");
+            filterData(preset);
+        });
+
+        function filterData(preset) {
+            $.ajax({
+                url: '/Load/Index', // Adjust the URL to match the correct endpoint
+                type: 'GET',
+                data: { preset: preset },
+                dataType: 'json',
+                success: function (response) {
+                    console.log("Sajjad" + response);
+                    console.log("Sajjad" + response.length);
+                    $('#Broker tbody').empty();
+                    if (response.length != 0) {
+                        // Update the table body with new data
+                        updateTable(response);
+                    } else {
+                        // Display a message if no data is available
+                        /*$('#Broker').html('<tr><td colspan="13">No data available.</td></tr>');*/
+                        var emptyRow = $('<tr>').addClass('light-blue-row').append('<td colspan="13">No Load found</td>');
+                        $('#Broker tbody').append(emptyRow);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log('AJAX Error:', status, error);
+                    // Handle error if necessary
+                    $('#Broker').html('<tr><td colspan="13">Error loading data. Please try again.</td></tr>');
+                }
+            });
+        }
+
+        function updateTable(data) {
+            // Clear the existing table body
+            $('#Broker tbody').empty();
+           
+
+            // Iterate over the fetched data and append rows to the table
+            $.each(data, function (index, item) {
+                var row = createRowHtml(item);
+                $('#Broker tbody').append(row);
+            });
+        }
+
+        function createRowHtml(item) {
+            var timeStampString = item.LoadPickupDateTime   ;
+
+            // Extracting the timestamp value from the string
+            var timeStamp = parseInt(timeStampString.match(/\d+/)[0]);
+
+            // Creating a new Date object using the timestamp
+            var date = new Date(timeStamp);
+
+            // Formatting the date to the desired format (dd-mm-yyyy)
+            var formattedDate = ("0" + date.getDate()).slice(-2) + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + date.getFullYear();
+
+            console.log(formattedDate);
+
+            var timeStamp123 = item.DateCreated;
+
+            // Extracting the timestamp value from the string
+            var timeStamp456 = parseInt(timeStamp123.match(/\d+/)[0]);
+
+            // Creating a new Date object using the timestamp
+            var date = new Date(timeStamp456);
+
+            // Formatting the date to the desired format (dd-mm-yyyy)
+            var formattedDate123 = ("0" + date.getDate()).slice(-2) + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + date.getFullYear();
+
+            console.log(formattedDate123);
+            // Create a row HTML using jQuery to avoid unexpected token '<'
+            var row = $('<tr>');
+            row.append($('<td>').text(item.LoadID)).append('</td>');
+            row.append($('<td>').text(formattedDate)).append('</td>');;
+            row.append($('<td>').text(item.LoadRate)).append('</td>');;
+            row.append($('<td>').text(item.ID)).append('</td>');;
+            row.append($('<td>').text(item.ID)).append('</td>');;
+            row.append($('<td>').text(item.ID)).append('</td>');;
+            row.append($('<td>').text(item.LoadOrigin)).append('</td>');;
+            row.append($('<td>').text(item.LoadDestination)).append('</td>');;
+            row.append($('<td>').text(item.ID)).append('</td>');;
+            row.append($('<td>').text(item.PaymentType)).append('</td>');;
+            row.append($('<td>').text(formattedDate123)).append('</td>');;
+            row.append($('<td>').text(item.BookingAgent)).append('</td>');;
+            row.append($('<td>').text(item.ID)).append('</td>');
+            row.append($('</tr>'))
+            return row;
+        }
+    });
+
+</script>
+
+
+
+
+
+
+
+
+
+

@@ -11,6 +11,7 @@ namespace SoftinnBookingSystem
     public class General
     {
         public static string ConnectionString { get; set; }
+
         public static DataTable FetchData(string query)
         {
             SqlConnection con = new SqlConnection(ConnectionString);
@@ -23,6 +24,18 @@ namespace SoftinnBookingSystem
             con.Close();
             return dt;
         }
+
+
+
+        //public static void ExecuteNonQuery(string query, var value)
+        //{
+        //    SqlConnection con = new SqlConnection(ConnectionString);
+        //    con.Open();
+        //    SqlCommand cmd = new SqlCommand(query, con);
+        //    cmd.ExecuteNonQuery();
+        //    con.Close();
+        //}
+
         public static void ExecuteNonQuery(string query)
         {
             SqlConnection con = new SqlConnection(ConnectionString);
@@ -77,6 +90,11 @@ namespace SoftinnBookingSystem
             }
             return lstRows;
 
+        }
+
+        internal static void StartUpSettings()
+        {
+            throw new NotImplementedException();
         }
     }
 }

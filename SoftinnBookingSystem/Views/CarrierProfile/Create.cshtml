@@ -1,0 +1,795 @@
+﻿@model SoftinnBookingSystem.Models.CarrierProfile
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.AntiForgeryToken()
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Carrier Profile<small>(New)</small></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " id="authority-tab" data-toggle="tab" href="#authority" role="tab" aria-controls="authority" aria-selected="false">Authority</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="w9form-tab" data-toggle="tab" href="#w9form" role="tab" aria-controls="w9form" aria-selected="false">W9 Form</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " id="insurance-tab" data-toggle="tab" href="#insurance" role="tab" aria-controls="insurance" aria-selected="false">Insurance</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " id="factoring-tab" data-toggle="tab" href="#factoring" role="tab" aria-controls="factoring" aria-selected="false">Factoring</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="documents-tab" data-toggle="tab" href="#documents" role="tab" aria-controls="documents" aria-selected="false">Documents</a>
+                            </li>
+                            <!-- Add more tabs for other sections if needed -->
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content" id="myTabContent">
+                            <!-- Carrier Profile Tab -->
+                            <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <div class="form-horizontal">
+                                    <!-- Your Carrier Profile form fields -->
+                                    <div class="col-md-12">
+                                        <div class="box-body">
+                                            <div class="form-horizontal">
+                                                <div class="card-body">
+                                                    <div class="form-group">
+                                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                                        @Html.HiddenFor(model => model.CarrierID)
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                @Html.Label("Owner Name", htmlAttributes: new { @class = "control-label required" })
+                                                                @Html.EditorFor(model => model.OwnerName, new { htmlAttributes = new { @class = "form-control" } })
+                                                                @Html.ValidationMessageFor(model => model.OwnerName, "", new { @class = "text-danger" })
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                @Html.Label("Company Name", htmlAttributes: new { @class = "control-label required" })
+                                                                @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control" } })
+                                                                @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                @Html.Label("Commission Percentage", htmlAttributes: new { @class = "control-label required" })
+                                                                @Html.EditorFor(model => model.CommissionPercentage, new { htmlAttributes = new { @class = "form-control", @type = "number", @onfocus = "clearDefaultValue(this)" } })
+                                                                @Html.ValidationMessageFor(model => model.CommissionPercentage, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    @Html.Label("Phone", htmlAttributes: new { @class = "control-label " })
+                                                                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                                                                    @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    @Html.Label("Email", htmlAttributes: new { @class = "control-label " })
+                                                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    @Html.Label("Address", htmlAttributes: new { @class = "control-label " })
+                                                                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                                                                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    @Html.Label("City", htmlAttributes: new { @class = "control-label " })
+                                                                    @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                                                                    @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    @Html.Label("State", htmlAttributes: new { @class = "control-label " })
+                                                                    @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })
+                                                                    @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    @Html.Label("Zip Code", htmlAttributes: new { @class = "control-label " })
+                                                                    @Html.EditorFor(model => model.ZipCode, new { htmlAttributes = new { @class = "form-control" } })
+                                                                    @Html.ValidationMessageFor(model => model.ZipCode, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <input type="checkbox" id="paymentreporting" style="margin-top: 0;">
+                                                                    <label for="Factoring" class="ml-1">Enable weekly payments reporting</label>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <button type="button" class="btn btn-primary" id="nextTabBtn">Next</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="authority" role="tabpanel" aria-labelledby="authority-tab">
+                                <div class="card-body">
+                                    <div class="box-body">
+                                        <div class="form-horizontal">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        @Html.Label("USDOT#", htmlAttributes: new { @class = "control-label required" })
+                                                        @Html.EditorFor(model => model.USDOT, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessage("USDOT", "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        @Html.Label("MC#", htmlAttributes: new { @class = "control-label required" })
+                                                        @Html.EditorFor(model => model.MC, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessage("MC", "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        @Html.Label("MC Authority Date", htmlAttributes: new { @class = "control-label required" })
+                                                        @Html.EditorFor(model => model.MCAuthorityDate, new { htmlAttributes = new { @class = "form-control",@type="date" } })
+                                                        @Html.ValidationMessage("MCAuthorityDate", "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <button type="button" class="btn btn-primary" id="nextTabBtn2">Next</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="tab-pane fade" id="w9form" role="tabpanel" aria-labelledby="w9form-tab">
+                                <!-- Add fields for documents upload or display here -->
+                                <div class="card-body">
+                                    <div class="box-body">
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        @Html.Label("Name", htmlAttributes: new { @class = "control-label required" })
+                                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessage("Name", "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        @Html.Label("Business Name", htmlAttributes: new { @class = "control-label required" })
+                                                        @Html.EditorFor(model => model.BusinessName, new { htmlAttributes = new { @class = "form-control" , @id="businessname" } })
+                                                        @Html.ValidationMessage("BusinessName", "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        @Html.Label("Person Tax Classification", htmlAttributes: new { @class = "control-label" })
+                                             
+                                                        @Html.DropDownListFor(model => model.PersonTaxClassification, (SelectList)ViewBag.PersonTaxClassification, "Select", htmlAttributes: new { @class = "form-control select2" })
+                                                        @Html.ValidationMessageFor(model => model.PersonTaxClassification, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        @Html.Label("LLC Tax Classification", htmlAttributes: new { @class = "control-label " })
+                                                        @Html.DropDownListFor(model => model.LLCTaxClassification, (SelectList)ViewBag.LLCTaxClassification, "Select Designation", htmlAttributes: new { @class = "form-control select2" })
+                                                        @Html.ValidationMessageFor(model => model.LLCTaxClassification, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        @Html.Label("Social Security Number", htmlAttributes: new { @class = "control-label required" })
+                                                        @Html.EditorFor(model => model.SocialSecurityNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessage("SocialSecurityNumber", "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        @Html.Label("Employer Identification Number", htmlAttributes: new { @class = "control-label required" })
+                                                        @Html.EditorFor(model => model.EmployerIdentificationNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessage("EmployerIdentificationNumber", "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        @Html.Label("W9 Form Date", htmlAttributes: new { @class = "control-label required" })
+                                                        @Html.EditorFor(model => model.W9FormDate, new { htmlAttributes = new { @class = "form-control",@type="date", @id="w9formdate" } })
+                                                        @Html.ValidationMessage("W9FormDate", "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+
+
+
+
+
+
+
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <button type="button" class="btn btn-primary" id="nextTabBtn3">Next</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="tab-pane fade" id="insurance" role="tabpanel" aria-labelledby="insurance-tab">
+                                <section class="content">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <!-- left column -->
+                                            <div class="col-md-12">
+                                                <!-- general form elements -->
+                                                <div class="card card-primary">
+                                                    <div class="card-header">
+                                                        <h2 class="card-title">Insurance Details<small>(New)</small></h2>
+                                                    </div>
+
+                                                    <div class="card-body">
+                                                        <div class="box-body">
+                                                            <div class="form-horizontal">
+
+                                                                <div class="form-group">
+                                                                    @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.CarierInsuranceID)*@
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            @Html.Label("Policy Number", htmlAttributes: new { @class = "control-label required", @id= "policyNumber1" })
+                                                                            @Html.EditorFor(model => model.InsurancepolicyNumber, new { htmlAttributes = new { @class = "form-control", @id="PolicyNumber" } })
+                                                                            @Html.ValidationMessage("InsurancepolicyNumber", "", new { @class = "text-danger" })
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            @Html.Label("Expiry of Insurance", htmlAttributes: new { @class = "control-label required" })
+                                                                            @Html.EditorFor(model => model.ExpiryOfInsurance, new { htmlAttributes = new { @class = "form-control",@type="date", @id = "EOF" } })
+                                                                            @Html.ValidationMessage("ExpiryOfInsurance", "", new { @class = "text-danger" })
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+
+
+
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+
+                                                                        <div class="form-group">
+                                                                            @Html.Label("Company Name", htmlAttributes: new { @class = "control-label " })
+                                                                            @Html.EditorFor(model => model.InsuranceCompanyName, new { htmlAttributes = new { @class = "form-control", @id = "CompanyName1" } })
+                                                                            @Html.ValidationMessage("CompanyName", "", new { @class = "text-danger" })
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+
+                                                                        <div class="form-group">
+                                                                            @Html.Label("Company Phone", htmlAttributes: new { @class = "control-label " })
+                                                                            @Html.EditorFor(model => model.CompanyPhone, new { htmlAttributes = new { @class = "form-control" } })
+                                                                            @Html.ValidationMessage("CompanyPhone", "", new { @class = "text-danger" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            @Html.Label("Company Fax", htmlAttributes: new { @class = "control-label " })
+                                                                            @Html.EditorFor(model => model.CompanyFax, new { htmlAttributes = new { @class = "form-control" } })
+                                                                            @Html.ValidationMessage("CompanyFax", "", new { @class = "text-danger" })
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+
+                                                                        <div class="form-group">
+                                                                            @Html.Label("Company Address", htmlAttributes: new { @class = "control-label " })
+                                                                            @Html.EditorFor(model => model.CompanyAddress, new { htmlAttributes = new { @class = "form-control" } })
+                                                                            @Html.ValidationMessage("CompanyAddress", "", new { @class = "text-danger" })
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <br />
+
+                                                                <section class="content">
+                                                                    <div class="container-fluid">
+                                                                        <div class="row">
+                                                                            <div class="col-md-12">
+                                                                                <div class="card card-primary">
+                                                                                    <div class="card-header">
+                                                                                        <h3 class="card-title">Agent Details</h3>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </section>
+
+
+                                                                <br />
+
+
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+
+                                                                        <div class="form-group">
+                                                                            @Html.Label("Agent Name", htmlAttributes: new { @class = "control-label " })
+                                                                            @Html.EditorFor(model => model.AgentName, new { htmlAttributes = new { @class = "form-control" } })
+                                                                            @Html.ValidationMessage("AgentName", "", new { @class = "text-danger" })
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+
+                                                                        <div class="form-group">
+                                                                            @Html.Label("Agent Email", htmlAttributes: new { @class = "control-label " })
+                                                                            @Html.EditorFor(model => model.AgentEmail, new { htmlAttributes = new { @class = "form-control" } })
+                                                                            @Html.ValidationMessage("AgentEmail", "", new { @class = "text-danger" })
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="col-md-6">
+
+                                                                        <div class="form-group">
+                                                                            @Html.Label("Agent Phone", htmlAttributes: new { @class = "control-label " })
+                                                                            @Html.EditorFor(model => model.AgentPhone, new { htmlAttributes = new { @class = "form-control" } })
+                                                                            @Html.ValidationMessage("AgentPhone", "", new { @class = "text-danger" })
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <button type="button" class="btn btn-primary" id="nextTabBtn4">Next</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+
+
+
+                            <div class="tab-pane fade" id="factoring" role="tabpanel" aria-labelledby="factoring-tab">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="checkbox" id="Factoring" style="margin-top: 0;">
+                                        <label for="Factoring" class="ml-1">Factoring</label>
+                                    </div>
+                                </div>
+
+                                <section id="FactoringDetails1" class="content">
+                                    <div class="box-body">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="card card-primary">
+                                                        <div class="card-header">
+                                                            <h2 class="card-title">Factoring Details<small>(New)</small></h2>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <div id="FactoringDetails">
+                                    <!-- Factoring fields -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    @Html.Label("Factoring Company Name", htmlAttributes: new { @class = "control-label " })
+                                                    @Html.EditorFor(model => model.FactoringCompanyName, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessage("FactoringCompanyName", "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    @Html.Label("Factoring Company Number", htmlAttributes: new { @class = "control-label required" })
+                                                    @Html.EditorFor(model => model.FactoringCompanyNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessage("FactoringCompanyNumber", "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    @Html.Label("Factoring Company Phone", htmlAttributes: new { @class = "control-label required" })
+                                                    @Html.EditorFor(model => model.FactoringCompanyPhone, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessage("FactoringCompanyPhone", "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.Label("Factoring Fax", htmlAttributes: new { @class = "control-label " })
+                                                    @Html.EditorFor(model => model.FactoringFax, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessage("FactoringFax", "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.Label("Factoring Address", htmlAttributes: new { @class = "control-label " })
+                                                    @Html.EditorFor(model => model.FactoringAddress, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessage("FactoringAddress", "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <section class="content">
+                                            <div class="box-body">
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="card card-primary">
+                                                                <div class="card-header">
+                                                                    <h2 class="card-title">Factoring Agent Details</h2>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.Label("Agent Name", htmlAttributes: new { @class = "control-label " })
+                                                    @Html.EditorFor(model => model.FactoringAgentName, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessage("AgentName", "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    @Html.Label("Agent Email", htmlAttributes: new { @class = "control-label " })
+                                                    @Html.EditorFor(model => model.FactoringAgentEmail, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessage("AgentEmail", "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    @Html.Label("Agent Phone", htmlAttributes: new { @class = "control-label " })
+                                                    @Html.EditorFor(model => model.FactoringAgentPhone, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessage("AgentPhone", "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <button type="button" class="btn btn-primary" id="nextTabBtn5">Next</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <!-- Documents Tab -->
+                            <div class="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="MCFile">MC Certificate</label>
+                                            <br />
+                                            <span style="font-size: 25px;">📁</span>
+                                            <br />
+                                            @using (Html.BeginForm("Create", "CarrierDocuments", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                                            {
+                                                <input type="file" name="file" id="MCFile" />
+                                            }
+                                            <div id="selectedFiles">
+                                                <p>@Model.MCCertificate</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="W9Forms">W9 Form</label>
+                                            <br />
+                                            <span style="font-size: 25px;">📁</span>
+                                            <br />
+                                            @using (Html.BeginForm("Create", "CarrierDocuments", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                                            {
+                                                <input type="file" name="file" id="W9Forms" />
+                                            }
+                                            <div id="selectedFiles">
+                                                <p>@Model.W9Form</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-6">
+                                                <br />
+                                                <label for="CarrierInsurance">Certificate of Insurance</label> <br />
+                                                <span style="font-size: 25px;">📁</span> <br />
+                                                @using (Html.BeginForm("Create", "CarrierDocuments", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                                                {
+                                                    <input type="file" name="file" id="CarrierInsurance" />
+                                                }
+                                                <div id="selectedFiles">
+                                                    <p>@Model.CertificateOfInsurance</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <button type="button" class="btn btn-success float-right" onclick="SaveRecord()">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- Add more tab panes for other sections if needed -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+
+
+    $(document).ready(function () {
+        $("#MCAuthorityDate").val('@Model.MCAuthorityDate.ToString("yyyy-MM-dd")')
+        $("#EOF").val('@Model.ExpiryOfInsurance.ToString("yyyy-MM-dd")')
+        $("#w9formdate").val('@Model.W9FormDate.ToString("yyyy-MM-dd")')
+        if (@Model.CarrierID!= 0) {
+            $("#PersonTaxClassification").val(@Model.PersonTaxClassification);
+            $("#LLCTaxClassification").val(@Model.LLCTaxClassification);
+        }
+        // Add a click event listener to the button
+        $("#nextTabBtn").click(function () {
+            // Activate the next tab (assuming it's the immediate sibling)
+            $('.nav-tabs a[href="#authority"]').tab('show');
+
+
+        });
+        $("#nextTabBtn2").click(function () {
+            // Activate the next tab (assuming it's the immediate sibling)
+            $('.nav-tabs a[href="#w9form"]').tab('show');
+
+
+        });
+        $("#nextTabBtn3").click(function () {
+            // Activate the next tab (assuming it's the immediate sibling)
+            $('.nav-tabs a[href="#insurance"]').tab('show');
+
+
+        });
+        $("#nextTabBtn4").click(function () {
+            // Activate the next tab (assuming it's the immediate sibling)
+            $('.nav-tabs a[href="#factoring"]').tab('show');
+
+
+        });
+        $("#nextTabBtn5").click(function () {
+            // Activate the next tab (assuming it's the immediate sibling)
+            $('.nav-tabs a[href="#documents"]').tab('show');
+
+
+        });
+    });
+
+//     $(document).ready(function() {
+//    // Validation function
+//    $("#Email").blur( function() {
+//        validateEmail();
+//    });
+
+//    function validateEmail() {
+//        var email = $("#Email").val();
+//        var lblError = $("#lblError");
+//        lblError.html("");
+//        var expr = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+//        if (!expr.test(email)) {
+//            lblError.html("Invalid email address.");
+//        }
+//    }
+//});
+
+
+
+
+    $(document).ready(function () {
+        $('#FactoringDetails').hide();
+        $('#FactoringDetails1').show();
+        $('#Factoring').change(function () {
+            if ($(this).is(':checked')) {
+                $('#FactoringDetails').show();
+                $('#FactoringDetails1').show();
+            } else {
+                $('#FactoringDetails').hide();
+            }
+        });
+    });
+
+    function clearDefaultValue(element) {
+        if (element.value === '0') {
+            element.value = ''; // Clear the default value if it's '0'
+        }
+    }
+
+    //var formData = new FormData();
+    //formData.append('MCFile', $('#MCFile')[0].files[0]);
+    //formData.append('W9Forms', $('#W9Forms')[0].files[0]);
+    //formData.append('CarrierInsurance', $('#CarrierInsurance')[0].files[0]);
+
+
+
+    function SaveRecord() {
+        var formData = new FormData();
+
+        formData.append('CarrierID', $("#CarrierID").val());
+        formData.append('OwnerName', $("#OwnerName").val());
+        formData.append('CompanyName', $("#CompanyName").val());
+        formData.append('CommissionPercentage', $("#CommissionPercentage").val());
+        formData.append('Phone', $("#Phone").val());
+        formData.append('Email', $("#Email").val());
+        formData.append('Address', $("#Address").val());
+        formData.append('City', $("#City").val());
+        formData.append('State', $("#State").val());
+        formData.append('ZipCode', $("#ZipCode").val());
+        formData.append('EnableWeeklyPaymentsReportings', $('#paymentreporting').is(":checked") ? 1 : 0);
+
+        formData.append('CarrierAuthority', $("#CarrierAuthority").val());
+        formData.append('USDOT', $("#USDOT").val());
+        formData.append('MC', $("#MC").val());
+        formData.append('MCAuthorityDate', $("#MCAuthorityDate").val());
+
+        formData.append('Name', $("#Name").val());
+        formData.append('BusinessName', $("#businessname").val());
+        formData.append('PersonTaxClassification', $("#PersonTaxClassification").val());
+        formData.append('LLCTaxClassification', $("#LLCTaxClassification").val());
+        formData.append('SocialSecurityNumber', $("#SocialSecurityNumber").val());
+        formData.append('EmployerIdentificationNumber', $("#EmployerIdentificationNumber").val());
+        formData.append('W9FormDate', $("#w9formdate").val());
+
+        formData.append('InsurancepolicyNumber', $("#PolicyNumber").val());
+        formData.append('ExpiryOfInsurance', $("#EOF").val());
+        formData.append('InsuranceCompanyName', $("#CompanyName1").val());
+        formData.append('CompanyPhone', $("#CompanyPhone").val());
+        formData.append('CompanyFax', $("#CompanyFax").val());
+        formData.append('CompanyAddress', $("#CompanyAddress").val());
+        formData.append('AgentName', $("#AgentName").val());
+        formData.append('AgentEmail', $("#AgentEmail").val());
+        formData.append('AgentPhone', $("#AgentPhone").val());
+
+        formData.append('FactoringCompanyName', $("#FactoringCompanyName").val());
+        formData.append('FactoringCompanyNumber', $("#FactoringCompanyNumber").val());
+        formData.append('FactoringCompanyPhone', $("#FactoringCompanyPhone").val());
+        formData.append('FactoringFax', $("#FactoringFax").val());
+        formData.append('FactoringAddress', $("#FactoringAddress").val());
+        formData.append('FactoringAgentName', $("#FactoringAgentName").val());
+        formData.append('FactoringAgentEmail', $("#FactoringAgentEmail").val());
+        formData.append('FactoringAgentPhone', $("#FactoringAgentPhone").val());
+        
+        formData.append('MCCertificate', $('#MCFile')[0].files[0]);
+        formData.append('W9Form', $('#W9Forms')[0].files[0]);
+        formData.append('CertificateOfInsurance', $('#CarrierInsurance')[0].files[0]);
+
+        //formData.append('MCCertificate', $('#MCFile')[0].files[0] ? $('#MCFile')[0].files[0].name : "");
+        //formData.append('CertificateOfInsurance', $('#CarrierInsurance')[0].files[0] ? $('#CarrierInsurance')[0].files[0].name : "");
+
+
+        $.ajax({
+            type: "POST",
+            url: "/CarrierProfile/Create",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (r) {
+                window.location.href = "/CarrierProfile/Index";
+            },
+            error: function (x, e) {
+                bootbox.alert("Error");
+            }
+        });
+    }
+
+
+
+
+
+</script>

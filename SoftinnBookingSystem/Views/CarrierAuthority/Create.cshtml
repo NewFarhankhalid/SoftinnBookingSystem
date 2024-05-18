@@ -1,0 +1,111 @@
+﻿@model SoftinnBookingSystem.Models.CarrierAuthority
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Carrier Authority<small>(New)</small></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div class="card-body">
+    <div class="box-body">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.Label("USDOT#", htmlAttributes: new { @class = "control-label required" })
+                        @Html.EditorFor(model => model.USDOT, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.USDOT, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.Label("MC#", htmlAttributes: new { @class = "control-label required" })
+                        @Html.EditorFor(model => model.MC, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.MC, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.Label("MC Authority Date", htmlAttributes: new { @class = "control-label required" })
+                        @Html.EditorFor(model => model.MCAuthorityDate, new { htmlAttributes = new { @class = "form-control", id = "MCAuthorityDate" } })
+                        @Html.ValidationMessageFor(model => model.MCAuthorityDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card-body">
+    <div class="row">
+        <div class="col-md-12">
+            <button type="button" class="btn btn-success float-right" onclick="SaveRecord()">Save</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+
+
+    $(function () {
+        $("#MCAuthorityDate").datepicker({
+            autoclose: true
+        });
+    });
+
+    function SaveRecord() {
+        var CA = {}
+        CA.USDOT = $("#USDOT").val();
+        CA.MC = $("#MC").val();
+        CA.MCAuthorityDate = $("#MCAuthorityDate").val();
+
+
+        if (CA.USDOT == "" || CA.USDOT == null || CA.USDOT == 0) {
+            bootbox.alert("Please Enter USDOT#");
+            return
+        }
+        if (CA.MC == "" || CA.MC == null || CA.MC == 0) {
+            bootbox.alert("Please Enter MC#");
+            return
+        }
+
+        $.ajax({
+            type: "Post",
+            URL: "CarrierAuthority/Create/",
+            data: JSON.stringify({ CA }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "JSON",
+            Success: function (r) {
+                window.location.href = "/CarrierAuthority/Index";
+            },
+            error: function (x, e) {
+                bootbox.alert("Error");
+            },
+        });
+    }
+
+</script>
+
+
+
+

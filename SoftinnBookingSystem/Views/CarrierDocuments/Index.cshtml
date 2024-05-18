@@ -1,0 +1,107 @@
+﻿@model SoftinnBookingSystem.Models.CarrierDocuments
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<section id="FactoringDetails1" class="content">
+    <div class="box-body">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h2 class="card-title">Carrier Documents</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div class="card-body">
+    <div class="row">
+        <div class="col-md-6">
+            <label for="MCFile">MC Certificate</label>
+            <br />
+            <span style="font-size: 25px;">📁</span>
+            <br />
+            @using (Html.BeginForm("Create", "CarrierDocuments", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+            {
+                <input type="file" name="file" id="MCFile" />
+            }
+        </div>
+        <div class="col-md-6">
+            <label for="W9Forms">W9 Form</label>
+            <br />
+            <span style="font-size: 25px;">📁</span>
+            <br />
+            @using (Html.BeginForm("Create", "CarrierDocuments", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+            {
+                <input type="file" name="file" id="W9Forms" />
+            }
+        </div>
+    </div>
+</div>
+
+
+<div class="card-body">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <br />
+                <label for="CarrierInsurance">Certificate of Insurance</label> <br />
+                <span style="font-size: 25px;">📁</span> <br />
+                @using (Html.BeginForm("Create", "CarrierDocuments", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                {
+                    <input type="file" name="file" id="CarrierInsurance" />
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card-body">
+            <div class="form-group">
+                <button type="button" class="btn btn-success float-right" onclick="SaveRecord()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function SaveRecord() {
+        var formData = new FormData();
+        formData.append('MCFile', $('#MCFile')[0].files[0]);
+        formData.append('W9Forms', $('#W9Forms')[0].files[0]);
+        formData.append('CarrierInsurance', $('#CarrierInsurance')[0].files[0]);
+
+        $.ajax({
+            type: "POST",
+            url: "/CarrierDocuments/Create",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.success) {
+                    window.location.href = "/CarrierDocuments/Index";
+                } else {
+                    bootbox.alert("Error: " + response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                bootbox.alert("Error: " + error);
+            }
+        });
+    }
+</script>
+
+
+

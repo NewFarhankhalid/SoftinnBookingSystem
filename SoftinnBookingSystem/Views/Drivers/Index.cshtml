@@ -1,0 +1,163 @@
+﻿@model IEnumerable<SoftinnBookingSystem.Models.Drivers>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-header">
+            <h5 class="page-title" style="display: inline;">📚 Driver</h5>
+            <a href="/Drivers/Create" class="btn btn-primary waves-effect waves-light" style="display: inline;">Add New</a>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    /* Custom CSS to move DataTable search box to the left side for table with ID "Broker" */
+    #Broker_filter {
+        float: left !important;
+    }
+</style>
+
+
+
+@*<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Broker</h3>
+    </div>*@
+<!-- /.card-header -->
+
+
+@if (Model != null) // Check if the model is not null
+{
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                @*<a href="@Url.Action("Create" , "Brooker")" class="btn btn-primary ml-2" role="button">New</a>
+                    <br>
+                    <br>*@
+
+                <table class="table table-hover table-bordered table-condensed" id="Driver">
+                    <thead>
+                        <tr>
+
+                            <th>Driver Name</th>
+                            <th>Carrier Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTable">
+
+                        @foreach (var Driver in Model)
+                        {
+                            <tr>
+
+                                @*<td>
+                                    <div class="copy-container">
+                                        <i class="far fa-copy copy-icon"></i>
+                                        <span class="copy-text">@Driver.DriverID</span>
+                                    </div>
+                                </td>*@
+
+                                <td>@Driver.DriverName</td>
+                                <td>@Driver.Carrier</td>
+                                @*<td>
+            <div class="SnowMenu">
+                <button type="button" class="btn btn-orange btn-xs arrow-none dropdown-toggle waves-effect waves-light">
+                    <i class="icon-options-vertical"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right show">
+                    <button class="dropdown-menu">Edit</button>
+                    <button class="dropdown-menu text-danger">Delete</button>
+                </div>
+            </div>
+        </td>*@
+                                <td>
+                                    <button type="button" class="btn btn-primary" onclick="location.href='/Drivers/Edit?id=@Driver.DriverID'">Edit</button>
+                                    <button type="button" class="btn btn-primary" id="@Driver.DriverID" onclick="DeleteButtonclicked(this)">Delete</button>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+            </div>
+            <!-- /.col-md-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Bootbox JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+
+}
+else
+{
+    <p>No data available.</p> <!-- Display a message if the model is null -->
+}
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $("#Broker").DataTable();
+
+        $('.copy-icon').click(function () {
+            var textToCopy = $(this).siblings('.copy-text').text();
+
+            navigator.clipboard.writeText(textToCopy).then(function () {
+                alert("Copied to clipboard: " + textToCopy);
+            }).catch(function (err) {
+                console.error('Failed to copy: ', err);
+            });
+        });
+    });
+
+    function DeleteButtonclicked(object) {
+        bootbox.confirm({
+            size: "small",
+            message: "Are you sure to delete the selected record?",
+            callback: function (result) {
+                if (result == true) {
+                    jQuery.ajax({
+                        url: '/Drivers/Delete',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: { id: object.id },
+                        success: function () {
+                            $("#" + object.id).closest('tr').remove(); // Remove the deleted row from the table
+                            $("#Driver").DataTable().draw(); // Redraw the DataTable
+                        },
+                        error: function () {
+                            /*  alert('error');*/
+                        }
+                    });
+                }
+                else {
+                    // Do nothing if user cancels the deletion
+                }
+            }
+        });
+    }
+</script>
+
+
+

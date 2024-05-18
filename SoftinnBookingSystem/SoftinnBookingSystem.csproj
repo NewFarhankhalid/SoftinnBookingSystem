@@ -118,18 +118,42 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BrookerController.cs" />
+    <Compile Include="Controllers\CarrierAuthorityController.cs" />
+    <Compile Include="Controllers\CarrierDocumentsController.cs" />
+    <Compile Include="Controllers\CarrierFactoringController.cs" />
+    <Compile Include="Controllers\CarrierInsuranceController.cs" />
+    <Compile Include="Controllers\CarrierProfileController.cs" />
+    <Compile Include="Controllers\ComodityController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
+    <Compile Include="Controllers\DispatcherController.cs" />
     <Compile Include="Controllers\DriversController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoadController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="DropDown.cs" />
     <Compile Include="General.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AssignDrivers.cs" />
+    <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Brooker.cs" />
+    <Compile Include="Models\CarrierAuthority.cs" />
+    <Compile Include="Models\CarrierDocuments.cs" />
+    <Compile Include="Models\CarrierFactoring.cs" />
+    <Compile Include="Models\CarrierInsurance.cs" />
+    <Compile Include="Models\CarrierProfile.cs" />
+    <Compile Include="Models\Comodity.cs" />
     <Compile Include="Models\Companies.cs" />
+    <Compile Include="Models\Dispatcher.cs" />
     <Compile Include="Models\Drivers.cs" />
+    <Compile Include="Models\Load.cs" />
+    <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\Users.cs" />
+    <Compile Include="Models\W9Form.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -149,6 +173,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\toastr.css" />
+    <Content Include="Content\toastr.min.css" />
     <Content Include="dist\css\adminlte.css" />
     <Content Include="dist\css\adminlte.min.css" />
     <Content Include="dist\css\alt\adminlte.components.css" />
@@ -1659,7 +1685,6 @@
     <Content Include="plugins\select2\js\select2.full.min.js" />
     <Content Include="plugins\select2\js\select2.js" />
     <Content Include="plugins\select2\js\select2.min.js" />
-    <Content Include="plugins\sparklines\sparkline.js" />
     <Content Include="plugins\summernote\lang\summernote-ar-AR.js" />
     <Content Include="plugins\summernote\lang\summernote-ar-AR.min.js" />
     <Content Include="plugins\summernote\lang\summernote-ar-AR.min.js.LICENSE.txt" />
@@ -1919,6 +1944,8 @@
     <Content Include="plugins\summernote\summernote.min.js.map" />
     <Content Include="plugins\sweetalert2-theme-bootstrap-4\bootstrap-4.scss" />
     <Content Include="plugins\toastr\toastr.js.map" />
+    <Content Include="Content\toastr.scss" />
+    <Content Include="Content\toastr.less" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1930,6 +1957,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\toastr.js" />
+    <Content Include="Scripts\toastr.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1947,12 +1976,33 @@
     <Content Include="Views\Companies\Create.cshtml" />
     <Content Include="Views\Companies\Index.cshtml" />
     <Content Include="Views\Brooker\Create.cshtml" />
+    <Content Include="Views\CarrierProfile\Create.cshtml" />
+    <Content Include="Views\Load\Create.cshtml" />
+    <Content Include="Views\CarrierAuthority\Create.cshtml" />
+    <Content Include="Views\CarrierInsurance\Create.cshtml" />
+    <Content Include="Views\CarrierFactoring\Create.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Brooker\Index.cshtml" />
+    <Content Include="Views\CarrierDocuments\Index.cshtml" />
+    <Content Include="Views\Load\Index.cshtml" />
+    <Content Include="Views\Dispatcher\Index.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\CarrierProfile\Index.cshtml" />
+    <Content Include="Views\Home\UserLogin.cshtml" />
+    <Content Include="Views\Load\LoadDetails.cshtml" />
+    <Content Include="Views\Comodity\Create.cshtml" />
+    <Content Include="Views\Comodity\Index.cshtml" />
+    <Content Include="Views\Drivers\Create.cshtml" />
+    <Content Include="Views\Drivers\Index.cshtml" />
+    <Content Include="Views\Drivers\AssignDrivers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Files\" />
     <Folder Include="Services\" />
+    <Folder Include="Views\Authentication\" />
+    <Folder Include="Views\BaseController\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\Drivers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

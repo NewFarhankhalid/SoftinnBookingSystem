@@ -1,0 +1,273 @@
+﻿@model IEnumerable<SoftinnBookingSystem.Models.Users>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="box">
+    <div class="box-header">
+        <h2 class="box-title">Users</h2>
+        <!-- Add New User Button -->
+        <button type="button" class="btn btn-warning" onclick="openAddUserModal()">Add New User</button>
+    </div>
+    <div class="box-body">
+
+        <br>
+        <br>
+
+        <table class="table" id="UserInfo">
+            <thead>
+
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserEmail)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserAddres)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PhoneNumber)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Alias)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Roles)
+                    </th>
+                    <th class="col-2">Status</th>
+                    <th class="col-2">Action</th>
+                   
+                </tr>
+            </thead>
+
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr id="@item.UserID">
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserEmail)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserAddres)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PhoneNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Alias)
+                        </td>
+                        <td>
+                            @if (item.Roles == 1)
+                            {
+                                <text>Admin</text>
+                            }
+                            @if (item.Roles == 2)
+                            {
+                                <text>Dispatcher</text>
+                            }
+                            @if (item.Roles == 3)
+                            {
+                                <text>Driver</text>
+                            }
+                            @if (item.Roles == 4)
+                            {
+                                <text>Sales Person</text>
+                            }
+                            @if (item.Roles == 5)
+                            {
+                                <text>Booking Agent</text>
+                            }
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary" onclick="editUser(@item.UserID)">Edit</button>
+                            <button type="button" class="btn btn-primary" id="@item.UserID" onclick="DeleteButtonclicked(this)">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="myOperator" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Add new user</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="UserID" />
+                <label>Name</label>
+                <input type="text" class="form-control" id="Name" />
+                <span class="text-danger" style="display:none" id="newUser">Please enter User Name</span>
+
+
+                <label>Address</label>
+                <input type="text" class="form-control" id="Address" />
+                <span class="text-danger" style="display:none" id="newAddress">Please enter Address</span>
+
+                <label>Email</label>
+                <input type="text" class="form-control" id="Email" />
+                <span class="text-danger" style="display:none" id="newEmail">Please enter Email</span>
+
+                <label>Password</label>
+                <input type="text" class="form-control" id="Password" />
+                <span class="text-danger" style="display:none" id="newPassword">Please enter Password</span>
+
+                <label>Phone No</label>
+                <input type="text" class="form-control" id="PhoneNo" />
+                <span class="text-danger" style="display:none" id="newPhoneNo">Please enter Phone No</span>
+
+                <label>Alias</label>
+                <input type="text" class="form-control" id="Alias" />
+                <span class="text-danger" style="display:none" id="newAlias">Please enter Alias</span>
+
+                <label>Roles</label>
+                <div style="max-height: 200px; overflow-y: auto;">
+                    @Html.DropDownList("Roles", (SelectList)ViewBag.Roles, "Select Role", new { @class = "form-control" })
+                </div>
+                <span class="text-danger" style="display:none" id="newRoles">Please select a Role</span>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="AddBrand()">Save Changes</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Include Bootbox Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+
+<script>
+
+
+
+    function editUser(UserID) {
+        // AJAX call to fetch user information based on UserID
+        $.ajax({
+            url: '/User/GetUserInfo/' + UserID,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                // Populate modal fields with retrieved user information
+                $('#UserID').val(data.UserID); // Ensure correct UserID is set
+                $('#Name').val(data.UserName);
+                $('#Address').val(data.UserAddress);
+                $('#Email').val(data.UserEmail);
+                $('#Password').val(data.Password);
+                $('#PhoneNo').val(data.PhoneNumber);
+                $('#Alias').val(data.Alias);
+                $('#Roles').val(data.Roles);
+
+                // Show the modal
+                $('#myOperator').modal('show');
+            },
+            error: function () {
+                // Handle error
+                alert('Error fetching user information.');
+            }
+        });
+    }
+
+
+
+    $(document).ready(function () {
+        $("#UserInfo").DataTable();
+    });
+
+
+    
+
+    function openAddUserModal() {
+        // Trigger the opening of the modal
+        $('#myOperator').modal('show');
+    }
+
+    function AddBrand() {
+        var UserID = $("#UserID").val(); // Retrieve UserID from hidden input field
+        var UserName = $("#Name").val();
+        var UserAddres = $("#Address").val();
+        var UserEmail = $("#Email").val();
+        var Password = $("#Password").val();
+        var Phone = $("#PhoneNo").val();
+        var Alias = $("#Alias").val();
+        var Roles = $("#Roles").val();
+
+        // AJAX request including UserID
+        $.ajax({
+            type: "POST",
+            url: "/User/AddUser",
+            data: JSON.stringify({ UserID: UserID, UserName: UserName, UserAddres: UserAddres, UserEmail: UserEmail, Password: Password, PhoneNumber: Phone, Alias: Alias, Roles: Roles }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                if (r) {
+                    // Optionally, you can redirect the user or perform other actions upon successful save
+                    bootbox.alert("User added successfully.");
+                    $("#myOperator").modal("hide");
+                } else {
+                    bootbox.alert("Failed to add user.");
+                }
+            },
+            error: function (x, e) {
+                bootbox.alert("Error");
+            },
+        });
+    }
+
+
+    function DeleteButtonclicked(object) {
+
+
+        bootbox.confirm({
+            size: "small",
+            message: "Are you sure to delete the selected record?",
+            callback: function (result) {
+
+                if (result == true) {
+                    jQuery.ajax({
+                        url: '/User/Delete',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: { id: object.id },
+                        success: function () {
+
+                            $("#" + object.id).remove();
+                        },
+                        error: function () {
+                            alert('error');
+                        }
+                    })
+                }
+                else {
+                }
+            }
+        })
+    }
+</script>
+

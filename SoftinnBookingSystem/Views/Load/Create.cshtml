@@ -1,0 +1,407 @@
+﻿@model SoftinnBookingSystem.Models.Load
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    .button-container {
+        float: right;
+        margin-top: 20px;
+        margin-right: 20px;
+    }
+
+    .map-button {
+        font-size: 18px;
+        padding: 10px 20px;
+    }
+</style>
+
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Add New Load<small>(New)</small></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+@Html.AntiForgeryToken()
+
+<div class="box-body">
+    <div class="card-body">
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input type="checkbox" id="bookingAgentCheckbox" style="margin-top: 0;">
+                    <label for="bookingAgentCheckbox" class="ml-1">Load for booking agent</label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            @Html.Label("Assigned Booking Agents", htmlAttributes: new { @class = "control-label " })
+            @Html.DropDownList("BookingAgent", (SelectList)ViewBag.BookingAgent, "Select..", htmlAttributes: new { @class = "form-control Select2", id = "BookingAgent" })
+            @Html.ValidationMessage("BookingAgent", "", new { @class = "text-danger" })
+        </div>
+
+
+
+        <div class="col-md-6">
+            @Html.Label("Select Driver", htmlAttributes: new { @class = "control-label " })
+            @Html.DropDownList("Driver", (SelectList)ViewBag.Driver, "Select..", htmlAttributes: new { @class = "form-control Select2" })
+            @Html.ValidationMessage("Driver", "", new { @class = "text-danger" })
+        </div>
+
+
+
+
+        <div class="col-md-12" style="text-align: right;">
+            <button type="button" class="fa fa-map" onclick="redirectToMaps()">Show Map</button>
+        </div>
+    
+
+
+
+
+
+
+
+
+  
+        <div class="box-body">
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.ID)
+                <div class="row">
+                    <div class="col-md-6">
+                        @Html.Label("Load Origin", htmlAttributes: new { @class = "control-label required" })
+                        @Html.EditorFor(model => model.LoadOrigin, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.LoadOrigin, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6">
+                        @Html.Label("Load Destination", htmlAttributes: new { @class = "control-label required" })
+                        @Html.EditorFor(model => model.LoadDestination, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.LoadDestination, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        @Html.Label("Load Weight", htmlAttributes: new { @class = "control-label required" })
+                        <div class="input-group">
+                            @Html.EditorFor(model => model.LoadWeight, new { htmlAttributes = new { @class = "form-control", @placeholder = "lbs", @type = "number", @onfocus = "clearDefaultValue(this)" } })
+                            <div class="input-group-append">
+                                <span class="input-group-text">lbs</span>
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.LoadWeight, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6">
+                        @Html.Label("Load Length", htmlAttributes: new { @class = "control-label required" })
+                        <div class="input-group">
+                            @Html.EditorFor(model => model.LoadLength, new { htmlAttributes = new { @class = "form-control", @placeholder = "feet", @type = "number", @onfocus = "clearDefaultValue(this)" } })
+                            <div class="input-group-append">
+                                <span class="input-group-text">feet</span>
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.LoadLength, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        @Html.Label("Load Rate", htmlAttributes: new { @class = "control-label required" })
+                        <div class="input-group">
+                            @Html.EditorFor(model => model.LoadRate, new { htmlAttributes = new { @class = "form-control", @placeholder = "$", @type = "number", @onfocus = "clearDefaultValue(this)" } })
+                            <div class="input-group-append">
+                                <span class="input-group-text">$</span>
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.LoadRate, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-6">
+                        @Html.Label("Load Distance", htmlAttributes: new { @class = "control-label required" })
+                        <div class="input-group">
+                            @Html.EditorFor(model => model.LoadDistance, new { htmlAttributes = new { @class = "form-control", @placeholder = "miles", @type = "number", @onfocus = "clearDefaultValue(this)" } })
+                            <div class="input-group-append">
+                                <span class="input-group-text">miles</span>
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.LoadDistance, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        @Html.Label("Load Type", htmlAttributes: new { @class = "control-label required" })
+                        @Html.DropDownListFor(model => model.LoadType, (SelectList)ViewBag.LoadType, "Select Load Type", htmlAttributes: new { @class = "form-control Select2" })
+                        @Html.ValidationMessageFor(model => model.LoadType, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6">
+                        @Html.Label("Payment Type", htmlAttributes: new { @class = "control-label required" })
+                        @Html.DropDownListFor(model => model.PaymentType, (SelectList)ViewBag.PaymentType, "Select Payment Type", htmlAttributes: new { @class = "form-control Select2" })
+                        @Html.ValidationMessageFor(model => model.PaymentType, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        @Html.Label("Load No", htmlAttributes: new { @class = "control-label required" })
+                        @Html.EditorFor(model => model.LoadID, new { htmlAttributes = new { @class = "form-control", @type = "number", @onfocus = "clearDefaultValue(this)" } })
+                        @Html.ValidationMessageFor(model => model.LoadID, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6">
+                        @Html.Label("Comodity", htmlAttributes: new { @class = "control-label " })
+                        @Html.DropDownList("Comodity", (SelectList)ViewBag.Comodity, "Select..", htmlAttributes: new { @class = "form-control Select2", id = "Comodity" })
+                        @Html.ValidationMessage("Comodity", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @Html.Label("Comments", htmlAttributes: new { @class = "control-label required" })
+                        @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Pickup Information</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            @Html.Label("Shipper", htmlAttributes: new { @class = "control-label " })
+                                            @Html.DropDownListFor(model => model.Shipper, (SelectList)ViewBag.Broker, "Select..", htmlAttributes: new { @class = "form-control Select2" })
+                                            @Html.ValidationMessageFor(model => model.Shipper, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            @Html.Label("Load Pickup Date Time", htmlAttributes: new { @class = "control-label " })
+                                            <div class="input-group">
+                                                @Html.EditorFor(model => model.LoadPickupDateTime, new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text"></span>
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.LoadPickupDateTime, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            @Html.Label("Pickup Address", htmlAttributes: new { @class = "control-label " })
+                                            @Html.EditorFor(model => model.PickupAddress, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.PickupAddress, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            @Html.Label("Pickup Instructions", htmlAttributes: new { @class = "control-label " })
+                                            @Html.EditorFor(model => model.PickupInstructions, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.PickupInstructions, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Delivery Information</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            @Html.Label("Consignee", htmlAttributes: new { @class = "control-label " })
+                                            @Html.EditorFor(model => model.Consignee, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Consignee, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            @Html.Label("Load Dropoff Date Time", htmlAttributes: new { @class = "control-label required" })
+                                            <div class="input-group">
+                                                @Html.EditorFor(model => model.LoadDropOffDateTime, new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text"></span>
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.LoadDropOffDateTime, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            @Html.Label("Dropoff Address", htmlAttributes: new { @class = "control-label " })
+                                            @Html.EditorFor(model => model.DropOffAddress, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.DropOffAddress, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            @Html.Label("Pickup Instructions", htmlAttributes: new { @class = "control-label " })
+                                            @Html.EditorFor(model => model.PickupInstructionsAtDelivery, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.PickupInstructionsAtDelivery, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <button type="button" class="btn btn-success float-right" onclick="SaveRecord()">Save</button>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<script>
+
+
+
+    function redirectToMaps() {
+        // Retrieve the values of Origin and Destination
+        var origin = $("#LoadOrigin").val();
+        var destination = $("#LoadDestination").val();
+
+        // Generate the link in the format of Google Maps URL
+        var mapsURL = "https://www.google.com/maps/dir/?api=1&origin=" + encodeURIComponent(origin) + "&destination=" + encodeURIComponent(destination);
+
+        // Open the Google Maps URL in a new tab
+        window.open(mapsURL, '_blank');
+    }
+
+
+
+
+
+
+
+
+   // Format the date-time string in the format accepted by datetime-local input
+var loadPickupDateTime = '@Model.LoadPickupDateTime.ToString("yyyy-MM-ddTHH:mm")';
+$("#LoadPickupDateTime").val(loadPickupDateTime);
+
+    @*$("#LoadDropOffDateTime").val('@Model.LoadDropOffDateTime.ToString("yyyy-MM-dd")')*@
+    var LoadDropOffDateTime = '@Model.LoadPickupDateTime.ToString("yyyy-MM-ddTHH:mm")';
+    $("#LoadDropOffDateTime").val(LoadDropOffDateTime);
+
+    $(document).ready(function () {
+        $('#bookingAgentCheckbox').change(function () {
+            if ($(this).is(':checked')) {
+                $('#BookingAgent').parent().show(); // Show the parent div of the DropDownList
+            } else {
+                $('#BookingAgent').parent().hide(); // Hide the parent div of the DropDownList
+            }
+        });
+    });
+
+
+    function clearDefaultValue(element) {
+        if (element.value === '0') {
+            element.value = ''; // Clear the default value if it's '0'
+        }
+    }
+
+
+
+
+
+    function SaveRecord() {
+        var objLoad = {}
+        objLoad.Driver = $("#Driver").val();
+        objLoad.BookingAgent = $("#BookingAgent").val();
+        objLoad.LoadOrigin = $("#LoadOrigin").val();
+        objLoad.LoadDestination = $("#LoadDestination").val();
+        objLoad.LoadWeight = $("#LoadWeight").val();
+        objLoad.LoadLength = $("#LoadLength").val();
+        objLoad.LoadRate = $("#LoadRate").val();
+        objLoad.LoadDistance = $("#LoadDistance").val();
+        objLoad.LoadType = $("#LoadType").val();
+        objLoad.PaymentType = $("#PaymentType").val();
+        objLoad.LoadID = $("#LoadID").val();
+        objLoad.Comodity = $("#Comodity").val();
+        objLoad.Comments = $("#Comments").val();
+        objLoad.Shipper = $("#Shipper").val();
+        objLoad.LoadPickupDateTime = $("#LoadPickupDateTime").val();
+        objLoad.PickupAddress = $("#PickupAddress").val();
+        objLoad.PersonAtPickup = $("#PersonAtPickup").val();
+        objLoad.ContactPhone = $("#ContactPhone").val();
+        objLoad.PickupInstructions = $("#PickupInstructions").val();
+        objLoad.Consignee = $("#Consignee").val();
+        objLoad.LoadDropOffDateTime = $("#LoadDropOffDateTime").val();
+        objLoad.DropOffAddress = $("#DropOffAddress").val();
+        objLoad.PersonAtPickupAtDelivery = $("#PersonAtPickupAtDelivery").val();
+        objLoad.ContactPhoneAtDelivery = $("#ContactPhoneAtDelivery").val();
+        objLoad.PickupInstructionsAtDelivery = $("#PickupInstructionsAtDelivery").val();
+
+
+        if (objLoad.LoadOrigin == "" || objLoad.LoadOrigin == null || objLoad.LoadOrigin == 0) {
+            bootbox.alert("Please Enter Load Origin");
+            return
+        }
+        if (objLoad.LoadDestination == "" || objLoad.LoadDestination == null || objLoad.LoadDestination == 0) {
+            bootbox.alert("Please Enter Load Destination");
+            return
+        }
+        if (objLoad.LoadLength == "" || objLoad.LoadLength == null || objLoad.LoadLength == 0) {
+            bootbox.alert("Please Enter  Commission Load Length");
+            return
+        }
+        $.ajax({
+            type: "POST",
+            url: "/Load/Create",
+            data: JSON.stringify({ objLoad }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                window.location.href = "/Load/Index";
+            },
+            error: function (x, e) {
+                bootbox.alert("Error");
+            }
+        });
+
+    }
+
+</script>
+
+

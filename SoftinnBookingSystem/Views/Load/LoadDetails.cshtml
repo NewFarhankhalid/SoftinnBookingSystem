@@ -1,0 +1,118 @@
+﻿@model SoftinnBookingSystem.Models.Load
+@{
+    ViewBag.Title = "LoadDetails";
+}
+
+<h2>LoadDetails</h2>
+
+<div class="row">
+    <div class="col-md-5">
+
+        <form>
+
+            <div class="col-md-5">
+                @Html.Label("Change load status", htmlAttributes: new { @class = "control-label " })
+                @Html.DropDownList("LoadStatus", (SelectList)ViewBag.LoadStatus, "Select..", htmlAttributes: new { @class = "form-control Select2", id = "LoadStatus" })
+                @Html.ValidationMessage("LoadStatus", "", new { @class = "text-danger" })
+            </div>
+
+        </form>
+    </div>
+
+    <div class="col-md-7">
+        <table class="table  ">
+
+
+            <tr>
+                <th class="col-md-2">Load No:</th>
+                <td class="col-md-2">@Model.LoadID</td>
+                <th class="col-md-2">Pickup Date Time</th>
+                <td class="col-md-2">@Model.LoadPickupDateTime</td>
+            </tr>
+            <tr>
+
+                <th class="col-md-2">Invoice Status</th>
+                <td class="col-md-2">@Model.LoadID</td>
+                <th class="col-md-2">Email:</th>
+                <td class="col-md-2">@Model.LoadID</td>
+
+
+            </tr>
+
+            @*<tr>
+                <th class="col-md-2">City Name:</th>
+                <td class="col-md-2">@Model.CityName</td>
+                <th class="col-md-2">Address:</th>
+                <td class="col-md-2" colspan="3">@Model.Address</td>
+
+
+            </tr>
+            <tr>
+                <th class="col-md-2">BusinessNature:</th>
+                <td class="col-md-2">@Model.BusinessNature</td>
+                <th class="col-md-2">Password:</th>
+                <td class="col-md-2">@Model.Password</td>
+            </tr>
+            <tr>
+                <th class="col-md-2">Date of Joining:</th>
+                <td class="col-md-2"><strong class=" text-orange">@(DateTime.Parse(Model.CreatedDate.ToString()).ToString("MM-dd-yyyy"))</strong></td>
+                <th class="col-md-2">Expiry Date:</th>
+                <td class="col-md-2"><strong class=" text-orange">@(DateTime.Parse(Model.ExpiryDate.ToString()).ToString("MM-dd-yyyy"))</strong></td>
+            </tr>
+            <tr>
+                <th class="col-md-2">Open Time:</th>
+                <td class="col-md-2"><strong class="text-orange">@Model.OpenTime</strong></td>
+                <th class="col-md-2">Off Time:</th>
+                <td class="col-md-2"><strong class="text-orange">@Model.OffTime</strong></td>
+            </tr>
+            <tr>
+                @if (@Model.OffDay == "1")
+                {
+                    <th class="col-md-2">Off Day:</th>
+                    <td class="col-md-2"><strong class="text-orange">Friday</strong></td>
+
+                }
+                else if (@Model.OffDay == "2")
+                {
+                    <th class="col-md-2">Off Day:</th>
+                    <td class="col-md-2"><strong class="text-orange">Saturday</strong></td>
+
+                }
+                else if (@Model.OffDay == "3")
+                {
+                    <th class="col-md-2">Off Day:</th>
+                    <td class="col-md-2"><strong class="text-orange">Sunday</strong></td>
+
+                }
+                else if (@Model.OffDay == "4")
+                {
+                    <th class="col-md-2">Off Day:</th>
+                    <td class="col-md-2"><strong class="text-orange">Monday</strong></td>
+
+                }
+                else if (@Model.OffDay == "5")
+                {
+                    <th class="col-md-2">Off Day:</th>
+                    <td class="col-md-2"><strong class="text-orange">Tuesday</strong></td>
+
+                }
+                else if (@Model.OffDay == "6")
+                {
+                    <th class="col-md-2">Off Day:</th>
+                    <td class="col-md-2"><strong class="text-orange">Wednesday</strong></td>
+
+                }
+                else if (@Model.OffDay == "7")
+                {
+                    <th class="col-md-2">Off Day:</th>
+                    <td class="col-md-2"><strong class="text-orange">Thursday</strong></td>
+
+                }
+
+
+
+            </tr>*@
+        </table>
+
+    </div>
+</div>

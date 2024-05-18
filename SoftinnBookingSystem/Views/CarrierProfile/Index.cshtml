@@ -1,0 +1,122 @@
+﻿@model IEnumerable<SoftinnBookingSystem.Models.CarrierProfile>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-header">
+            <h5 class="page-title" style="display: inline;">📚 All Carriers</h5>
+            <a href="/CarrierProfile/Create" class="btn btn-primary waves-effect waves-light" style="display: inline;">Add New</a>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+
+@if (Model != null) // Check if the model is not null
+{
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                @*<a href="@Url.Action("Create" , "Brooker")" class="btn btn-primary ml-2" role="button">New</a>
+                    <br>
+                    <br>*@
+                <table class="table table-hover table-bordered table-condensed" id="CP">
+                    <thead>
+                        <tr>
+
+                            <th>MC</th>
+                            <th>USDOT</th>
+                            <th>Company Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTable">
+                        @foreach (var CP in Model)
+                        {
+                            <tr>
+
+                                <td>@CP.MC</td>
+                                <td>@CP.USDOT</td>
+                                <td>@CP.CompanyName</td>
+                                @*<td>
+                                        <div class="SnowMenu">
+                                            <button type="button" class="btn btn-orange btn-xs arrow-none dropdown-toggle waves-effect waves-light">
+                                                <i class="icon-options-vertical"></i>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-right show">
+                                                <button class="dropdown-menu">Edit</button>
+                                                <button class="dropdown-menu text-danger">Delete</button>
+                                            </div>
+                                        </div>
+                                    </td>*@
+                                <td>
+                                    <button type="button" class="btn btn-primary" onclick="location.href='/CarrierProfile/Edit?id=@CP.CarrierID'">Edit</button>
+                                    <button type="button" class="btn btn-primary" id="@CP.CarrierID" onclick="DeleteButtonclicked(this)">Delete</button>
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.col-md-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Bootbox JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+
+
+}
+else
+{
+    <p>No data available.</p> <!-- Display a message if the model is null -->
+}
+
+<script>
+
+    $(document).ready(function () {
+        $("#CP").DataTable();
+    });
+
+
+    function DeleteButtonclicked(object) {
+        bootbox.confirm({
+            size: "small",
+            message: "Are you sure to delete the selected record?",
+            callback: function (result) {
+                if (result == true) {
+                    jQuery.ajax({
+                        url: '/CarrierProfile/Delete',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: { id: object.id },
+                        success: function () {
+                            $("#" + object.id).remove();
+                            location.reload();
+                        },
+                        error: function (xhr, status, error) {
+                            alert('Error: ' + error);
+                        }
+                    });
+                }
+                else {
+                    // Do nothing if user cancels the deletion
+                }
+            }
+        });
+    }
+</script>
+

@@ -23,23 +23,27 @@ namespace SoftinnBookingSystem.Controllers
             return View(obj);
         }
         [HttpPost]
-        public ActionResult Create(Drivers Com)
+        public ActionResult Create(Drivers Driver)
         {
             try
             {
-                if (Com.DriverID == 0)
+                if (Driver.DriverID == 0)
                 {
-                    string Query = "Insert into Drivers (DriverName) ";
-                    Query = Query + "Values ('" + Com.DriverName + "')";
+                    string Query = "Insert into Driver (DriverName,Carrier,DriverEmail,DriverPhone,DriverAddress) ";
+                    Query = Query + "Values ('" + Driver.DriverName + "','" + Driver.Carrier + "','" + Driver.DriverEmail + "','" + Driver.DriverPhone + "','" + Driver.Address + "')";
                     General.ExecuteNonQuery(Query);
                 }
                 else
                 {
 
                     string Query = "";
-                    Query = Query + "UPDATE [dbo].[Drivers] ";
-                    Query = Query + " SET    [DriverName] ='" + Com.DriverName + "' ";
-                    Query = Query + "WHERE DriverID=" + Com.DriverID;
+                    Query = Query + "UPDATE [dbo].[Driver] ";
+                    Query = Query + " SET    [DriverName] ='" + Driver.DriverName + "' ";
+                    Query = Query + "     [Carrier] ='" + Driver.Carrier + "' ";
+                    Query = Query + "     [DriverEmail] ='" + Driver.DriverEmail + "' ";
+                    Query = Query + "     [DriverPhone] ='" + Driver.DriverPhone + "' ";
+                    Query = Query + "     [Address] ='" + Driver.Address + "' ";
+                    Query = Query + "WHERE DriverID=" + Driver.DriverID;
                     General.ExecuteNonQuery(Query);
                 }
                 // TODO: Add insert logic here

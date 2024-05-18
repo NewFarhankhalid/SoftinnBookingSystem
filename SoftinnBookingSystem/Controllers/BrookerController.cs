@@ -40,12 +40,12 @@ namespace SoftinnBookingSystem.Controllers
                     string Query = "";
                     Query = Query + "Update [dbo].[Brooker]";
                     Query = Query + "Set [BrookerMC] = '" + br.BrookerMC + "' ";
-                    Query = Query + "Set [BrookerUsDot] = '" + br.BrookerUsDot + "' ";
-                    Query = Query + "Set [BrookerBusinessName] = '" + br.BrookerBusinessName + "' ";
-                    Query = Query + "Set [BrookerEmail] = '" + br.BrookerEmail + "' ";
-                    Query = Query + "Set [BrookerPhone] = '" + br.BrookerPhone + "' ";
-                    Query = Query + "Set [BrookerFax] = '" + br.BrookerFax + "' ";
-                    Query = Query + "Set [BrookerAddress] = '" + br.BrookerAddress + "' ";
+                    Query = Query + " [BrookerUsDot] = '" + br.BrookerUsDot + "' ";
+                    Query = Query + " [BrookerBusinessName] = '" + br.BrookerBusinessName + "' ";
+                    Query = Query + " [BrookerEmail] = '" + br.BrookerEmail + "' ";
+                    Query = Query + " [BrookerPhone] = '" + br.BrookerPhone + "' ";
+                    Query = Query + " [BrookerFax] = '" + br.BrookerFax + "' ";
+                    Query = Query + " [BrookerAddress] = '" + br.BrookerAddress + "' ";
                     Query = Query + "Where BrookerID = " + br.BrookerID;
                     General.ExecuteNonQuery(Query);
                 }

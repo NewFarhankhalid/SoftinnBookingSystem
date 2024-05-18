@@ -1947,12 +1947,12 @@
     <Content Include="Views\Companies\Create.cshtml" />
     <Content Include="Views\Companies\Index.cshtml" />
     <Content Include="Views\Brooker\Create.cshtml" />
+    <Content Include="Views\Drivers\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Services\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\Drivers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

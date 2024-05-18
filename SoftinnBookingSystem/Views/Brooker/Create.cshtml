@@ -84,28 +84,28 @@
 <script>
 
     function SaveRecord() {
-        var Brooker = {}
-        Brooker.BrookerID = $("#BrookerID").val();
-        Brooker.BrookerMC = $("#BrookerMC").val();
-        Brooker.BrookerUsDot = $("#BrookerUsDot").val();
-        Brooker.BrookerBusinessName = $("#BrookerBusinessName").val();
-        Brooker.BrookerEmail = $("#BrookerEmail").val();
-        Brooker.BrookerPhone = $("#BrookerPhone").val();
-        Brooker.BrookerFax = $("#BrookerFax").val();
-        Brooker.BrookerAddress = $("#BrookerAddress").val();
+        var br = {}
+        br.BrookerID = $("#BrookerID").val();
+        br.BrookerMC = $("#BrookerMC").val();
+        br.BrookerUsDot = $("#BrookerUsDot").val();
+        br.BrookerBusinessName = $("#BrookerBusinessName").val();
+        br.BrookerEmail = $("#BrookerEmail").val();
+        br.BrookerPhone = $("#BrookerPhone").val();
+        br.BrookerFax = $("#BrookerFax").val();
+        br.BrookerAddress = $("#BrookerAddress").val();
 
-        if (Brooker.BrookerMC == "" || Brooker.BrookerMC == null || Brooker.BrookerMC == 0) {
-            Bootbox.alert("Please Enter BrokerMC#");
+        if (br.BrookerMC == "" || br.BrookerMC == null || br.BrookerMC == 0) {
+            bootbox.alert("Please Enter BrokerMC#");
             return
         }
-        if (Brooker.BrookerBusinessName == "" || Brooker.BrookerBusinessName == null || Brooker.BrookerBusinessName == 0) {
-            Bootbox.alert("Please Enter Brooker Business Name");
+        if (br.BrookerBusinessName == "" || br.BrookerBusinessName == null || br.BrookerBusinessName == 0) {
+            bootbox.alert("Please Enter Brooker Business Name");
             return
         }
         $.ajax({
             type: "Post",
-            URL: "Brooker/Create/",
-            data: json.stringify({ br }),
+            URL: "/Brooker/Create",
+            data: JSON.stringify({ br }),
             contentType: "application/json; charset=utf-8",
             dataType: JSON,
             Success: function (r) {

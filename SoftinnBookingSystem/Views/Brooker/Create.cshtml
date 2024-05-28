@@ -86,13 +86,7 @@
                                         @Html.EditorFor(model => model.BrookerPhone, new { htmlAttributes = new { @class = "form-control", @id = "Phone" } })
                                         @Html.ValidationMessageFor(model => model.BrookerPhone, "", new { @class = "text-danger" })
                                     </div>
-                                    <div class="col-md-6">
-                                        @Html.Label("Broker Fax", htmlAttributes: new { @class = "control-label " })
-                                        @Html.EditorFor(model => model.BrookerFax, new { htmlAttributes = new { @class = "form-control", @id = "BrookerFax" } })
-                                        @Html.ValidationMessageFor(model => model.BrookerFax, "", new { @class = "text-danger" })
-                                    </div>
                                 </div>
-
                                 <div class="row">
                                     <div class="col-md-12">
                                         @Html.Label("Broker Address", htmlAttributes: new { @class = "control-label " })
@@ -138,7 +132,6 @@
         Brooker.BrookerBusinessName = $("#BrookerBusinessName").val();
         Brooker.BrookerEmail = $("#Email").val();
         Brooker.BrookerPhone = $("#Phone").val();
-        Brooker.BrookerFax = $("#BrookerFax").val();
         Brooker.BrookerAddress = $("#Address").val();
 
         //if (Brooker.BrookerMC == "" || Brooker.BrookerMC == null || Brooker.BrookerMC == 0) {

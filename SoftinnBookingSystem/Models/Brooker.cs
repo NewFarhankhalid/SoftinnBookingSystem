@@ -13,7 +13,6 @@ namespace SoftinnBookingSystem.Models
         public string BrookerBusinessName { get; set; }
         public string BrookerEmail { get; set; }
         public string BrookerPhone { get; set; }
-        public string BrookerFax { get; set; }
         public string BrookerAddress { get; set; }
     }
 }

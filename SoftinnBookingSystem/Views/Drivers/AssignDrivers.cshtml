@@ -43,40 +43,88 @@
 <h6>Drag and drop the drivers to assign them to the dispatchers.</h6>
 <p>Unassigned Drivers: <span id="unassigned-count"></span></p>
 
+<a href="@Url.Action("Create", "Drivers")" class="btn btn-orange">Add New Driver</a>
+
+
+
 @using (Html.BeginForm("AssignDrivers", "Drivers", FormMethod.Post))
 {
     <div class="row">
+        <!-- Drivers Section -->
         <div class="col-md-3">
-            <h3>Drivers</h3>
+            <!-- Display Drivers -->
             <div id="drivers-list" class="list-items">
+                @if (!Model.Drivers.Any(d => !Model.Assignments.Any(a => a.DriverId == d.DriverID)))
+                {
+                    <div id="placeholder" class="placeholder">No drivers available</div>
+                }
                 @foreach (var driver in Model.Drivers)
                 {
-                    <div data-driverid="@driver.DriverID" class="cursor-pointer m-2 p-2 draggable-item bg-danger text-white text-left">
-                        <div class="item-content">
-                            <div><strong>Driver:</strong></div>
-                            <div><span><i class="fa-truck mr-2"></i>@driver.DriverName</span> <i class="ion-arrow-move icon-move"></i></div>
+                    if (!Model.Assignments.Any(a => a.DriverId == driver.DriverID))
+                    {
+                        <div data-driverid="@driver.DriverID" class="cursor-pointer m-2 p-2 draggable-item bg-danger text-white text-left">
+                            <div class="item-content">
+                                <div><strong>Driver:</strong></div>
+                                <div><span><i class="fa-truck mr-2"></i>@driver.DriverName</span> <i class="ion-arrow-move icon-move"></i></div>
+                            </div>
                         </div>
-                    </div>
+                    }
                 }
             </div>
         </div>
+
+        <!-- Users Section -->
         <div class="col-md-9" style="overflow-x: auto; white-space: nowrap; display: flex;">
             @foreach (var user in Model.Users)
             {
                 <div class="col-md-3">
                     <div data-userid="@user.UserID" class="user-column droppable">
-                        <h4 class="user-header">
+                        <h4 class="fa fa-headphones-alt user-header">
                             @user.UserName
-                            <span class="badge badge-danger item-count">0</span>
+                            @*<span class=" badge badge-danger item-count">0</span>*@
                         </h4>
-                        <ul class="user-list connectedSortable"></ul>
+                        <ul id="user-@user.UserID" class="user-list connectedSortable">
+                            @foreach (var assignment in Model.Assignments.Where(a => a.UserId == user.UserID))
+                            {
+                                var assignedDriver = Model.Drivers.First(d => d.DriverID == assignment.DriverId);
+                                <li>
+                                    <div data-driverid="@assignedDriver.DriverID" class="cursor-pointer m-2 p-2 draggable-item bg-danger text-white text-left ui-draggable ui-draggable-handle">
+                                        <div class="item-content">
+                                            <div><strong>Driver:</strong></div>
+                                            <div><span><i class="fa-truck mr-2"></i>@assignedDriver.DriverName</span> <i class="ion-arrow-move icon-move"></i></div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
                     </div>
                 </div>
             }
         </div>
+
+
+
+
+        <!-- Hidden Inputs -->
+        <div id="hiddenInputs">
+            <!-- Hidden input fields to store the selected driver assignments -->
+            @*@foreach (var user in Model.Users)
+                {
+                    foreach (var assignment in Model.Assignments.Where(a => a.UserId == user.UserID))
+                    {
+                        <input type="hidden" name="Assignments[@user.UserID][@assignment.DriverId]" value="@assignment.DriverId" />
+                    }
+                }*@
+        </div>
+
+        <!-- Save Button -->
+        <button id="saveButton" type="submit" class="btn btn-primary">Save Assignments</button>
     </div>
-    <button type="submit" class="btn btn-primary">Save Assignments</button>
 }
+
+
+
+
 
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -88,120 +136,288 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 @section scripts {
+
+
     <script>
-    $(document).ready(function () {
-        // Function to handle form submission
-        $("form").submit(function (event) {
-            // Prevent the default form submission
-            event.preventDefault();
+        $(document).ready(function () {
 
-            // Get the selected driver IDs
-            var driverIds = [];
-            $(".user-list").each(function () {
-                var userId = $(this).closest(".user-column").data("userid");
-                $(this).find("li").each(function () {
-                    var driverId = $(this).data("driverid");
-                    driverIds.push(driverId);
+            function saveRecord() {
+                var assignments = [];
+
+                $(".user-column").each(function () {
+                    var userId = $(this).data("userid");
+                    var driverIds = [];
+
+                    $(this).find(".user-list .draggable-item").each(function () {
+                        var driverId = $(this).data("driverid");
+                        driverIds.push(driverId);
+                    });
+
+                    // Add user ID and assigned driver IDs to the assignments array
+                    assignments.push({ userId: userId, driverIds: driverIds });
                 });
-            });
 
-            // Get the user ID (assuming all users have the same ID)
-            var userId = $(".user-column").first().data("userid");
+                console.log(assignments); // Log the assignments array to the console for debugging
 
-            $.ajax({
-                url: "/Drivers/AssignDrivers",
-                type: "POST",
-                data: { driverIds: driverIds, userId: userId },
-                success: function (response) {
-                    if (response.success) {
-                        // Handle success response
-                        alert("Assignments saved successfully!");
-                    } else {
-                        // Handle error response
-                        alert("Error: " + response.errorMessage);
+                $.ajax({
+                    url: "/Drivers/AssignDrivers",
+                    type: "POST",
+                    data: JSON.stringify(assignments),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) {
+                        if (response.success) {
+                            alert("Assignments saved successfully!");
+                            window.location.href = "/Drivers/AssignDrivers";
+                        } else {
+                            alert("Error: " + response.errorMessage);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("AJAX Error: ", status, error);
+                        alert("An error occurred while saving assignments: " + error);
                     }
-                },
-                error: function () {
-                    // Handle AJAX error
-                    alert("An error occurred while saving assignments.");
-                }
+                });
+            }
+
+
+            $(".btn-primary").click(function () {
+                saveRecord();
             });
-        });
 
-        // Function to update the count of items in each user's column
-        function updateItemCount() {
-            $('.user-column').each(function () {
-                var itemCount = $(this).find('.user-list li').length;
-                $(this).find('.item-count').text(itemCount);
-            });
-        }
+            function updateItemCount() {
+                $('.user-column').each(function () {
+                    var itemCount = $(this).find('.user-list .draggable-item').length;
+                    $(this).find('.item-count').text(itemCount);
+                });
+            }
 
-        // Call the function initially
-        updateItemCount();
+            function updateUnassignedCount() {
+                var unassignedCount = $("#drivers-list .draggable-item").length;
+                $("#unassigned-count").text(unassignedCount);
+            }
 
-        // Function to update the count of unassigned drivers
-        function updateUnassignedCount() {
-            var unassignedCount = $("#drivers-list .draggable-item").length;
-            $("#unassigned-count").text(unassignedCount);
-        }
-
-        // Call the function initially
-        updateUnassignedCount();
-
-        // Initialize draggable items
-        $(".draggable-item").draggable({
-            helper: "clone",
-            cursor: "move",
-            start: function (event, ui) {
-                $(this).addClass('dragging');
-            },
-            stop: function (event, ui) {
-                $(this).removeClass('dragging').show();
-                updateItemCount();
-                updateUnassignedCount();
-            },
-            drag: function (event, ui) {
-                // Check if the mouse cursor is near the right edge of the viewport
-                var mouseX = event.clientX;
-                var viewportWidth = $(window).width();
-                var scrollLeft = $(window).scrollLeft();
-                if (mouseX > (viewportWidth - 100)) { // Adjust the threshold as needed
-                    // Scroll the page horizontally to the right
-                    $(window).scrollLeft(scrollLeft + 10); // Adjust the scroll amount as needed
+            function checkPlaceholder() {
+                if ($("#drivers-list .draggable-item").length === 0) {
+                    if ($("#drivers-list #placeholder").length === 0) {
+                        $("#drivers-list").append('<div id="placeholder" class="placeholder">No drivers available</div>');
+                    }
+                } else {
+                    $("#placeholder").remove();
                 }
             }
-        });
 
-        // Initialize droppable user columns...........
-        $(".user-column").droppable({
-            accept: ".draggable-item",
-            drop: function (event, ui) {
-                var draggedDriver = $(ui.draggable).data("driverid");
-                var targetUser = $(this).data("userid");
-                var currentColumnUser = $(ui.draggable).closest(".user-column").data("userid");
-
-                // Only move the item if it's being dragged to a different user column
-                if (currentColumnUser !== targetUser) {
-                    ui.draggable.appendTo($(this).find(".user-list")).show();
+            // Initialize draggable items
+            $(".draggable-item").draggable({
+                helper: "clone",
+                cursor: "move",
+                start: function (event, ui) {
+                    $(this).addClass('dragging');
+                },
+                stop: function (event, ui) {
+                    $(this).removeClass('dragging').show();
                     updateItemCount();
                     updateUnassignedCount();
-                } else {
-                    ui.draggable.show();
+                    checkPlaceholder();
                 }
-            }
-        });
+            });
 
-        // Initialize droppable drivers list......
-        $("#drivers-list").droppable({
-            accept: ".draggable-item",
-            drop: function (event, ui) {
-                ui.draggable.removeClass('dragging').appendTo($(this)).show();
-                updateItemCount();
-                updateUnassignedCount();
-            }
+            // Initialize user column droppable areas
+            $(".user-column").droppable({
+                accept: ".draggable-item",
+                drop: function (event, ui) {
+                    var draggedDriver = $(ui.draggable).data("driverid");
+                    var targetUser = $(this).data("userid");
+                    var currentColumnUser = $(ui.draggable).closest(".user-column").data("userid");
+
+                    if (currentColumnUser !== targetUser) {
+                        $(ui.draggable).appendTo($(this).find(".user-list")).show();
+                        updateItemCount();
+                        updateUnassignedCount();
+                        checkPlaceholder();
+                    } else {
+                        $(ui.draggable).show();
+                    }
+                }
+            });
+
+            // Initialize drivers list droppable area
+            $("#drivers-list").droppable({
+                accept: ".draggable-item",
+                drop: function (event, ui) {
+                    $(ui.draggable).removeClass('dragging').appendTo($(this)).show();
+                    checkPlaceholder();
+                    updateItemCount();
+                    updateUnassignedCount();
+                }
+            });
+
+            // Initial check for placeholder
+            checkPlaceholder();
+
+            // Initial update of counts
+            updateItemCount();
+            updateUnassignedCount();
         });
-    });
-</script>
+    </script>
+
+
+
+
+
+
+
+
+
+    @*<script>
+            $(document).ready(function () {
+                // Function to handle form submission
+                $("form").submit(function (event) {
+                    // Prevent the default form submission
+                    event.preventDefault();
+
+                    // Get the selected driver IDs
+                    var driverIds = [];
+                    $(".user-list").each(function () {
+                        var userId = $(this).closest(".user-column").data("userid");
+                        $(this).find("li").each(function () {
+                            var driverId = $(this).data("driverid");
+                            driverIds.push(driverId);
+                        });
+                    });
+
+                    // Get the user ID (assuming all users have the same ID)
+                    var userId = $(".user-column").first().data("userid");
+
+                    $.ajax({
+                        url: "/Drivers/AssignDrivers",
+                        type: "POST",
+                        data: { driverIds: driverIds, userId: userId },
+                        success: function (response) {
+                            if (response.success) {
+                                // Handle success response
+                                alert("Assignments saved successfully!");
+                            } else {
+                                // Handle error response
+                                alert("Error: " + response.errorMessage);
+                            }
+                        },
+                        error: function () {
+                            // Handle AJAX error
+                            alert("An error occurred while saving assignments.");
+                        }
+                    });
+                });
+
+                // Function to update the count of items in each user's column
+                function updateItemCount() {
+                    $('.user-column').each(function () {
+                        var itemCount = $(this).find('.user-list li').length;
+                        $(this).find('.item-count').text(itemCount);
+                    });
+                }
+
+                // Call the function initially
+                updateItemCount();
+
+                // Function to update the count of unassigned drivers
+                function updateUnassignedCount() {
+                    var unassignedCount = $("#drivers-list .draggable-item").length;
+                    $("#unassigned-count").text(unassignedCount);
+                }
+
+                // Call the function initially
+                updateUnassignedCount();
+
+                // Initialize draggable items
+                $(".draggable-item").draggable({
+                    helper: "clone",
+                    cursor: "move",
+                    start: function (event, ui) {
+                        $(this).addClass('dragging');
+                    },
+                    stop: function (event, ui) {
+                        $(this).removeClass('dragging').show();
+                        updateItemCount();
+                        updateUnassignedCount();
+                    },
+                    drag: function (event, ui) {
+                        // Check if the mouse cursor is near the right edge of the viewport
+                        var mouseX = event.clientX;
+                        var viewportWidth = $(window).width();
+                        var scrollLeft = $(window).scrollLeft();
+                        if (mouseX > (viewportWidth - 100)) { // Adjust the threshold as needed
+                            // Scroll the page horizontally to the right
+                            $(window).scrollLeft(scrollLeft + 10); // Adjust the scroll amount as needed
+                        }
+                    }
+                });
+
+                // Initialize droppable user columns...........
+                $(".user-column").droppable({
+                    accept: ".draggable-item",
+                    drop: function (event, ui) {
+                        var draggedDriver = $(ui.draggable).data("driverid");
+                        var targetUser = $(this).data("userid");
+                        var currentColumnUser = $(ui.draggable).closest(".user-column").data("userid");
+
+                        // Only move the item if it's being dragged to a different user column
+                        if (currentColumnUser !== targetUser) {
+                            ui.draggable.appendTo($(this).find(".user-list")).show();
+                            updateItemCount();
+                            updateUnassignedCount();
+                        } else {
+                            ui.draggable.show();
+                        }
+                    }
+                });
+
+                // Initialize droppable drivers list......
+                $("#drivers-list").droppable({
+                    accept: ".draggable-item",
+                    drop: function (event, ui) {
+                        ui.draggable.removeClass('dragging').appendTo($(this)).show();
+                        updateItemCount();
+                        updateUnassignedCount();
+                    }
+                });
+            });
+                function SaveRecord() {
+                    var driverUserMap = {};
+
+                    // Iterate over each user column to collect user IDs under each driver
+                    $(".user-column").each(function () {
+                        var driverId = $(this).data("userid");
+                        var userIds = [];
+
+                        $(this).find(".user-list li").each(function () {
+                            var userId = $(this).data("userid");
+                            userIds.push(userId);
+                        });
+
+                        driverUserMap[driverId] = userIds;
+                    });
+
+                    // Send data to the server via AJAX
+                    $.ajax({
+                        url: "/Drivers/SaveDriverUserMap",
+                        type: "POST",
+                        data: { driverUserMap: driverUserMap },
+                        success: function (response) {
+                            if (response.success) {
+                                // Handle success response
+                                alert("Records saved successfully!");
+                            } else {
+                                // Handle error response
+                                alert("Error: " + response.errorMessage);
+                            }
+                        },
+                        error: function () {
+                            // Handle AJAX error
+                            alert("An error occurred while saving records.");
+                        }
+                    });
+                }
+        </script>*@
 
 
 

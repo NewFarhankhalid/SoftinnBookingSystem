@@ -10,6 +10,8 @@ namespace SoftinnBookingSystem.Models
         public int CarrierID { get; set; }
         public string OwnerName { get; set; }
         public string CompanyName{ get; set; }
+
+        public string Abbreviation { get; set; }
         public int CommissionPercentage { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
@@ -17,7 +19,7 @@ namespace SoftinnBookingSystem.Models
         public string City { get; set; }
         public string State { get; set; }
         public string ZipCode { get; set; }
-         public bool EnableWeeklyPaymentsReportings { get; set; }
+   
         public int CarrierAuthorityID { get; set; }
 
         public string USDOT { get; set; }
@@ -63,6 +65,9 @@ namespace SoftinnBookingSystem.Models
         public string W9Form { get; set; }
         public string CertificateOfInsurance { get; set; }
 
-
+        public string NOA { get; set; }
+        public string Other1 { get; set; }
+        public string Other2 { get; set; }
+      
     }
 }

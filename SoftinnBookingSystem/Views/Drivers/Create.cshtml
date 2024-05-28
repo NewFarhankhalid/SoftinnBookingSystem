@@ -1,6 +1,7 @@
 ﻿@model SoftinnBookingSystem.Models.Drivers
 @{
     ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @Html.AntiForgeryToken()
@@ -26,18 +27,19 @@
                                     <div class="col-md-6">
 
                                         <div class="form-group">
-                                         
+
                                             @Html.Label("Driver Name", htmlAttributes: new { @class = "control-label " })
                                             @Html.EditorFor(model => model.DriverName, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.DriverName, "", new { @class = "text-danger" })
 
                                         </div>
+
                                     </div>
                                     <div class="col-md-6">
 
                                         <div class="form-group">
                                             @Html.Label("Carrier", htmlAttributes: new { @class = "control-label " })
-                                            @Html.EditorFor(model => model.Carrier, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.DropDownListFor(model => model.Carrier, (SelectList)ViewBag.CompanyName, "Select..", htmlAttributes: new { @class = "form-control Select2" })
                                             @Html.ValidationMessageFor(model => model.Carrier, "", new { @class = "text-danger" })
 
                                         </div>
@@ -68,26 +70,130 @@
                                         @Html.EditorFor(model => model.DriverAddress, new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.DriverAddress, "", new { @class = "text-danger" })
                                     </div>
-                                   </div>
-                                <br />
-                                <br />
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <button type="button" class="btn btn-success float-right" onclick="SaveRecord()">Save</button>
+                                    <div class="col-md-6">
+                                        @Html.Label("Vehicle", htmlAttributes: new { @class = "control-label " })
+                                        <div class="input-group">
+                                            @Html.DropDownListFor(model => model.VehicleIDs, (SelectList)ViewBag.Vehicle, "Vehicle-Length-Width-Hieght-WeightCapacity", new { @class = "form-control Select2", @multiple = "multiple" })
+                                            <div class="input-group-append">
+                                                <a href="javascript:void(0);" class="btn btn-outline-secondary" title="Add Vehicle" onclick="openAddUserModal()">
+                                                    <i class="fas fa-plus"></i>
+                                                </a>
+                                                <a href="@Url.Action("Index", "Vehicle")" class="btn btn-outline-secondary" title="Edit Vehicle">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.VehicleIDs, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
+                            <div class="row">
+                                <div class="col-md-6">
+                                    @Html.Label("Accessory", htmlAttributes: new { @class = "control-label " })
+                                    @Html.DropDownListFor(model => model.SelectedAccessoryIds, (SelectList)ViewBag.Accessory, "Select..", htmlAttributes: new { @class = "form-control Select2", @multiple = "multiple" })
+                                    @Html.ValidationMessageFor(model => model.SelectedAccessoryIds, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="frontImage">Front Image</label>
+                                        <input type="file" id="frontImage" name="frontImage" class="form-control-file" onchange="previewFrontImage(event)" />
+                                        <img id="frontPreview" src="#" alt="Front Image" style="display:none; max-width:200px; max-height:200px;" />
+                                        @if (!string.IsNullOrEmpty(ViewBag.FrontImageUrl))
+                                        {
+                                            <img id="frontExistingImage" src="@ViewBag.FrontImageUrl" alt="Front Image" style="max-width:200px; max-height:200px;" />
+                                            <input type="hidden" id="ExistingFrontImagePath" name="ExistingFrontImagePath" value="@ViewBag.FrontImageUrl" />
+                                        }
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="backImage">Back Image</label>
+                                        <input type="file" id="backImage" name="backImage" class="form-control-file" onchange="previewBackImage(event)" />
+                                        <img id="backPreview" src="#" alt="Back Image" style="display:none; max-width:200px; max-height:200px;" />
+                                        @if (!string.IsNullOrEmpty(ViewBag.BackImageUrl))
+                                        {
+                                            <img id="backExistingImage" src="@ViewBag.BackImageUrl" alt="Back Image" style="max-width:200px; max-height:200px;" />
+                                            <input type="hidden" id="ExistingBackImagePath" name="ExistingBackImagePath" value="@ViewBag.BackImageUrl" />
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+                            <br />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-success float-right" onclick="SaveRecord()">Save</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <!-- /.card -->
+
                 </div>
-                <!--/.col (left) -->
+                <!-- /.card -->
             </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
+            <!--/.col (left) -->
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+
 </section>
+
+
+
+
+
+<div class="modal fade" id="myOperator" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Add Vehicle</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="VehicleName" />
+                <label>Vehicle Name</label>
+                <input type="text" class="form-control" id="Name" />
+                <span class="text-danger" style="display:none" id="vehiclename">Please enter Vehicle Name</span>
+
+                <label>Length</label>
+                <input type="text" class="form-control" id="Length" />
+                <span class="text-danger" style="display:none" id="length">Please enter Length</span>
+
+                <label>Width</label>
+                <input type="text" class="form-control" id="Width" />
+                <span class="text-danger" style="display:none" id="width">Please enter Width</span>
+
+                <label>Height</label>
+                <input type="text" class="form-control" id="Height" />
+                <span class="text-danger" style="display:none" id="height">Please enter Height</span>
+
+                <label>Weight Capacity</label>
+                <input type="text" class="form-control" id="WeightCapacity" />
+                <span class="text-danger" style="display:none" id="weightcapacity">Please enter Weight Capacity</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="AddBrand()">Save Changes</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Bootstrap JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Toastr JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
@@ -95,43 +201,187 @@
 
 
 
+<!-- jQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<!-- Select2 JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
 
 <script>
+    $(document).ready(function () {
+        $('.Select2').select2();
+    });
+
+
+
+    @*if (@Model.CarrierID!= 0) {
+    $("#PersonTaxClassification").val(@Model.PersonTaxClassification);
+    $("#LLCTaxClassification").val(@Model.LLCTaxClassification);
+}*@
+
+    function previewFrontImage(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('frontPreview');
+            output.src = reader.result;
+            output.style.display = 'block';
+
+            // Hide existing image when a new image is selected
+            var existingImage = document.getElementById('frontExistingImage');
+            if (existingImage) {
+                existingImage.style.display = 'none';
+            }
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    function previewBackImage(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('backPreview');
+            output.src = reader.result;
+            output.style.display = 'block';
+
+            // Hide existing image when a new image is selected
+            var existingImage = document.getElementById('backExistingImage');
+            if (existingImage) {
+                existingImage.style.display = 'none';
+            }
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+
+
+
+    function openAddUserModal() {
+        $('#myOperator').modal('show');
+    }
+
+    function displayToastMessage(title, message, type) {
+        var options = {
+            closeButton: true,
+            progressBar: true,
+            timeOut: 8000,
+            extendedTimeOut: 1000,
+            positionClass: 'toast-top-right',
+            preventDuplicates: false,
+            toastClass: 'toastr-light',
+        };
+        toastr[type](message, title, options);
+    }
+
+    function AddBrand() {
+        // Check if the modal is being opened correctly
+        console.log("Modal Opened");
+
+        var objUser = {
+            VehicleName: $("#Name").val(),
+            Length: $("#Length").val(),
+            Width: $("#Width").val(),
+            Hieght: $("#Height").val(),
+            WeightCapacity: $("#WeightCapacity").val()
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/Drivers/AddVehicle",
+            data: JSON.stringify(objUser),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log("Ajax Success"); // Check if AJAX request is successful
+                if (response) {
+                    displayToastMessage("Success", "User added successfully.", "success");
+                    $("#myOperator").modal("hide");
+                } else {
+                    displayToastMessage("Error", "Failed to add user.", "error");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("AJAX error:", status, error);
+                displayToastMessage("Error", "An error occurred: " + status + " - " + error, "error");
+            }
+        });
+    }
+
+
+
+
+
 
     function SaveRecord() {
-        var Drivers = {}
-        Drivers.DriverID = $("#DriverID").val();
-        Drivers.DriverName = $("#DriverName").val();
-        Drivers.Carrier = $("#Carrier").val();
-        Drivers.DriverEmail = $("#DriverEmail").val();
-        Drivers.DriverPhone = $("#DriverPhone").val();
-        Drivers.DriverAddress = $("#DriverAddress").val();
 
-        //if (Brooker.BrookerMC == "" || Brooker.BrookerMC == null || Brooker.BrookerMC == 0) {
-        //    bootbox.alert("Please Enter BrokerMC#");
-        //    return
+        var formData = new FormData();
+
+        formData.append('DriverID', $("#DriverID").val());
+/*        formData.append('VehicleID', $("#VehicleID").val());*/
+/*        formData.append('AccessoryId', $("#AccessoryId").val());*/
+        formData.append('DriverName', $("#DriverName").val());
+        formData.append('Carrier', $("#Carrier").val());
+        formData.append('DriverEmail', $("#DriverEmail").val());
+        formData.append('DriverPhone', $("#DriverPhone").val());
+        formData.append('DriverAddress', $("#DriverAddress").val());
+        formData.append('frontImage', $('#frontImage')[0].files[0]);
+        formData.append('backImage', $('#backImage')[0].files[0]);
+
+
+
+        var selectedVehicles = $("#VehicleID").val(); // This assumes #VehicleID is a multi-select element
+        if (selectedVehicles) {
+            for (var i = 0; i < selectedVehicles.length; i++) {
+                formData.append('VehicleIDs[]', selectedVehicles[i]);
+            }
+        }
+
+        var selectedAccessory = $("#SelectedAccessoryIds").val(); // This assumes #VehicleID is a multi-select element
+        if (selectedAccessory) {
+            for (var i = 0; i < selectedAccessory.length; i++) {
+                formData.append('SelectedAccessoryIds[]', selectedAccessory[i]);
+            }
+        }
+
+
+        //var Drivers = {};
+        //Drivers.DriverID = $("#DriverID").val();
+        //Drivers.DriverName = $("#DriverName").val();
+        //Drivers.Carrier = $("#Carrier").val();
+        //Drivers.DriverEmail = $("#DriverEmail").val();
+        //Drivers.DriverPhone = $("#DriverPhone").val();
+        //Drivers.DriverAddress = $("#DriverAddress").val();
+
+        //// Read front image file
+        //var frontImage = $("#frontImage").get(0).files[0];
+        //// Read back image file
+        //var backImage = $("#backImage").get(0).files[0];
+
+        //var formData = new FormData();
+        //formData.append('frontImage', $('#frontImage')[0].files[0]);
+        //formData.append('backImage', $('#backImage')[0].files[0]);
+
+
+        //for (var key in Drivers) {
+        //    formData.append(key, Drivers[key]);
         //}
-        //if (Brooker.BrookerBusinessName == "" || Brooker.BrookerBusinessName == null || Brooker.BrookerBusinessName == 0) {
-        //    bootbox.alert("Please Enter Brooker Business Name");
-        //    return
-        //}
+
         $.ajax({
             type: "POST",
             url: "/Drivers/Create",
-            data: JSON.stringify({ Drivers }),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
+            data: formData,
+            contentType: false,
+            processData: false,
             success: function (r) {
-               /* console.log(r); // Log the response for debugging*/
                 window.location.href = "/Drivers/Index";
             },
             error: function (x, e) {
-              /*  console.log(e); // Log any errors for debugging*/
                 // Handle errors here
             }
         });
     }
+
+
+
 
 </script>
 

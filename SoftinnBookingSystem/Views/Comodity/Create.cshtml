@@ -36,7 +36,7 @@
                         </table>
                     </div>
                 </div>
-                <div id="ChechComoditySuggestions">
+                <div id="CheckComoditySuggestions">
 
                 </div>
 
@@ -119,13 +119,13 @@
                 dataType: "json",
                 success: function (r) {
                     var data = r.split(',');
-                    $('#ChechComoditySuggestions').html('');
+                    $('#CheckComoditySuggestions').html('');
                     if (data[0] == "true") {
-                        $('#ChechComoditySuggestions').append('<div>' + data[1] + '</div>');
+                        $('#CheckComoditySuggestions').append('<div>' + data[1] + '</div>');
                         $("#Save").prop('disabled', true);
                     } else {
-                        $('#ChechComoditySuggestions').append('<div>No matching found.</div>');
-                        $("#Save").prop('disabled', true);
+                        $('#CheckComoditySuggestions').append('<div>No matching found.</div>');
+                        $("#Save").prop('disabled', false);
                     }
                 },
                 error: function (x, e) {
@@ -133,7 +133,7 @@
                 },
             });
         } else {
-            $('#ChechComoditySuggestions').html('');
+            $('#CheckComoditySuggestions').html('');
         }
     });
 

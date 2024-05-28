@@ -33,14 +33,14 @@ namespace SoftinnBookingSystem.Controllers
             return View(obj);
         }
         [HttpPost]
-        public ActionResult Create(CarrierProfile CP, HttpPostedFileBase MCCertificate, HttpPostedFileBase W9Form, HttpPostedFileBase CertificateOfInsurance)
+        public ActionResult Create(CarrierProfile CP, HttpPostedFileBase MCCertificate, HttpPostedFileBase W9Form, HttpPostedFileBase CertificateOfInsurance, HttpPostedFileBase NOA, HttpPostedFileBase Other1, HttpPostedFileBase Other2)
         {
             try
             {
                 if (CP.CarrierID == 0)
                 {
-                    string Query = "INSERT INTO CarrierProfile (OwnerName, CompanyName, CommissionPercentage, Phone, Email, Address, City, State, ZIPCode, EnableWeeklyPaymentsReportings) ";
-                    Query += "VALUES ('" + CP.OwnerName + "','" + CP.CompanyName + "'," + CP.CommissionPercentage + ",'" + CP.Phone + "','" + CP.Email + "','" + CP.Address + "','" + CP.City + "','" + CP.State + "','" + CP.ZipCode + "' ," + (CP.EnableWeeklyPaymentsReportings == true ? "1" : "0") + ")";
+                    string Query = "INSERT INTO CarrierProfile (OwnerName, CompanyName, Abbreviation ,CommissionPercentage, Phone, Email, Address, City, State, ZIPCode) ";
+                    Query += "VALUES ('" + CP.OwnerName + "','" + CP.CompanyName + "','" + CP.Abbreviation + "'," + CP.CommissionPercentage + ",'" + CP.Phone + "','" + CP.Email + "','" + CP.Address + "','" + CP.City + "','" + CP.State + "','" + CP.ZipCode + "')";
                     Query += "; SELECT @@IDENTITY as CarrierID";
                     DataTable dt = General.FetchData(Query);
                     CP.CarrierID = int.Parse(dt.Rows[0]["CarrierID"].ToString());
@@ -110,10 +110,46 @@ namespace SoftinnBookingSystem.Controllers
                         //CarrierInsurance.SaveAs(CarrierInsuranceFilePath);
                         //CP.CertificateOfInsurance = CarrierInsuranceFilePath;
                     }
+                    if (NOA != null)
+                    {
+                        string fileName = Path.GetFileNameWithoutExtension(NOA.FileName);
+                        string fileExtension = Path.GetExtension(NOA.FileName);
+                        string uniqueFileName = fileName + "_" + Guid.NewGuid().ToString("N") + fileExtension;
+                        CP.NOA = Path.Combine(Server.MapPath("~/Files"), uniqueFileName);
+                        NOA.SaveAs(CP.NOA);
+
+                        //string CarrierInsuranceFilePath = Path.Combine(Server.MapPath("~/Files"), Path.GetFileName(CarrierInsurance.FileName));
+                        //CarrierInsurance.SaveAs(CarrierInsuranceFilePath);
+                        //CP.CertificateOfInsurance = CarrierInsuranceFilePath;
+                    }
+                    if (Other1 != null)
+                    {
+                        string fileName = Path.GetFileNameWithoutExtension(Other1.FileName);
+                        string fileExtension = Path.GetExtension(Other1.FileName);
+                        string uniqueFileName = fileName + "_" + Guid.NewGuid().ToString("N") + fileExtension;
+                        CP.Other1 = Path.Combine(Server.MapPath("~/Files"), uniqueFileName);
+                        Other1.SaveAs(CP.Other1);
+
+                        //string CarrierInsuranceFilePath = Path.Combine(Server.MapPath("~/Files"), Path.GetFileName(CarrierInsurance.FileName));
+                        //CarrierInsurance.SaveAs(CarrierInsuranceFilePath);
+                        //CP.CertificateOfInsurance = CarrierInsuranceFilePath;
+                    }
+                    if (Other2 != null)
+                    {
+                        string fileName = Path.GetFileNameWithoutExtension(Other2.FileName);
+                        string fileExtension = Path.GetExtension(Other2.FileName);
+                        string uniqueFileName = fileName + "_" + Guid.NewGuid().ToString("N") + fileExtension;
+                        CP.Other2 = Path.Combine(Server.MapPath("~/Files"), uniqueFileName);
+                        Other2.SaveAs(CP.CertificateOfInsurance);
+
+                        //string CarrierInsuranceFilePath = Path.Combine(Server.MapPath("~/Files"), Path.GetFileName(CarrierInsurance.FileName));
+                        //CarrierInsurance.SaveAs(CarrierInsuranceFilePath);
+                        //CP.CertificateOfInsurance = CarrierInsuranceFilePath;
+                    }
 
                     // Save file paths to the database
-                    Query = "INSERT INTO CarrierDocuments (CarrierID, MCCertificate, W9Form, CertificateOfInsurance) ";
-                    Query += "VALUES ("+CP.CarrierID+",'" + CP.MCCertificate + "','" + CP.W9Form + "','" + CP.CertificateOfInsurance + "')";
+                    Query = "INSERT INTO CarrierDocuments (CarrierID, MCCertificate, W9Form, CertificateOfInsurance,NOA,Other1,Other2) ";
+                    Query += "VALUES ("+CP.CarrierID+",'" + CP.MCCertificate + "','" + CP.W9Form + "','" + CP.CertificateOfInsurance + "','" + CP.NOA + "','" + CP.Other1 + "','" + CP.Other2 + "')";
                     if (Query != "")
                     {
                         General.ExecuteNonQuery(Query);
@@ -126,8 +162,6 @@ namespace SoftinnBookingSystem.Controllers
                     //    return Json(new { success = false, message = ex.Message });
                     //}
 
-
-
                     return Json("true");
                 }
                 else
@@ -135,6 +169,7 @@ namespace SoftinnBookingSystem.Controllers
                     string Query = "UPDATE [dbo].[CarrierProfile] ";
                     Query += "SET [OwnerName] = '" + CP.OwnerName + "', ";
                     Query += "[CompanyName] = '" + CP.CompanyName + "', ";
+                    Query += "[Abbreviation] = '" + CP.Abbreviation + "', ";
                     Query += "[CommissionPercentage] = '" + CP.CommissionPercentage + "', ";
                     Query += "[Phone] = '" + CP.Phone + "', ";
                     Query += "[Email] = '" + CP.Email + "', ";
@@ -142,7 +177,6 @@ namespace SoftinnBookingSystem.Controllers
                     Query += "[City] = '" + CP.City + "', ";
                     Query += "[State] = '" + CP.State + "', ";
                     Query += "[ZIPCode] = '" + CP.ZipCode + "', ";
-                    Query += "[EnableWeeklyPaymentsReportings] = " + (CP.EnableWeeklyPaymentsReportings == true ? "1" : "0") + " ";
                     Query += "WHERE CarrierID = " + CP.CarrierID;
                     General.ExecuteNonQuery(Query);
 
@@ -231,9 +265,45 @@ namespace SoftinnBookingSystem.Controllers
                         //CarrierInsurance.SaveAs(CarrierInsuranceFilePath);
                         //CP.CertificateOfInsurance = CarrierInsuranceFilePath;
                     }
+                    if (NOA != null)
+                    {
+                        string fileName = Path.GetFileNameWithoutExtension(NOA.FileName);
+                        string fileExtension = Path.GetExtension(NOA.FileName);
+                        string uniqueFileName = fileName + "_" + Guid.NewGuid().ToString("N") + fileExtension;
+                        CP.NOA = Path.Combine(Server.MapPath("~/Files"), uniqueFileName);
+                        NOA.SaveAs(CP.NOA);
+
+                        //string CarrierInsuranceFilePath = Path.Combine(Server.MapPath("~/Files"), Path.GetFileName(CarrierInsurance.FileName));
+                        //CarrierInsurance.SaveAs(CarrierInsuranceFilePath);
+                        //CP.CertificateOfInsurance = CarrierInsuranceFilePath;
+                    }
+                    if (Other1 != null)
+                    {
+                        string fileName = Path.GetFileNameWithoutExtension(Other1.FileName);
+                        string fileExtension = Path.GetExtension(Other1.FileName);
+                        string uniqueFileName = fileName + "_" + Guid.NewGuid().ToString("N") + fileExtension;
+                        CP.Other1 = Path.Combine(Server.MapPath("~/Files"), uniqueFileName);
+                        Other1.SaveAs(CP.Other1);
+
+                        //string CarrierInsuranceFilePath = Path.Combine(Server.MapPath("~/Files"), Path.GetFileName(CarrierInsurance.FileName));
+                        //CarrierInsurance.SaveAs(CarrierInsuranceFilePath);
+                        //CP.CertificateOfInsurance = CarrierInsuranceFilePath;
+                    }
+                    if (Other2 != null)
+                    {
+                        string fileName = Path.GetFileNameWithoutExtension(Other2.FileName);
+                        string fileExtension = Path.GetExtension(Other2.FileName);
+                        string uniqueFileName = fileName + "_" + Guid.NewGuid().ToString("N") + fileExtension;
+                        CP.Other2 = Path.Combine(Server.MapPath("~/Files"), uniqueFileName);
+                        Other2.SaveAs(CP.CertificateOfInsurance);
+
+                        //string CarrierInsuranceFilePath = Path.Combine(Server.MapPath("~/Files"), Path.GetFileName(CarrierInsurance.FileName));
+                        //CarrierInsurance.SaveAs(CarrierInsuranceFilePath);
+                        //CP.CertificateOfInsurance = CarrierInsuranceFilePath;
+                    }
 
                     Query = "";
-                    if(MCCertificate != null|| W9Form != null||CertificateOfInsurance!=null)
+                    if(MCCertificate != null|| W9Form != null||CertificateOfInsurance!=null || NOA != null || Other1 != null || Other2 != null)
                     {
                         Query = "UPDATE [dbo].[CarrierDocuments] SET";
                         if (CP.MCCertificate != null)
@@ -248,6 +318,18 @@ namespace SoftinnBookingSystem.Controllers
                         {
                             Query += "[CertificateOfInsurance] = '" + CP.CertificateOfInsurance + "' ";
                         }
+                        if (CP.NOA != null)
+                        {
+                            Query += " [NOA] = '" + CP.NOA + "', ";
+                        }
+                        if (CP.Other1 != null)
+                        {
+                            Query += "[Other1] = '" + CP.Other1 + "', ";
+                        }
+                        if (CP.Other2 != null)
+                        {
+                            Query += "[Other2] = '" + CP.Other2 + "' ";
+                        }
                         //Query += "[CertificateOfInsurance] = '" + CP.CertificateOfInsurance + "' ";
                         Query += "WHERE CarrierID = " + CP.CarrierID;
                         General.ExecuteNonQuery(Query);
@@ -260,8 +342,6 @@ namespace SoftinnBookingSystem.Controllers
                     //{
                     //    General.ExecuteNonQuery(Query);
                     //}
-
-
 
                     return Json("true");
                 }
@@ -301,7 +381,7 @@ namespace SoftinnBookingSystem.Controllers
         {
             string Sql = "Delete from CarrierProfile where CarrierID=" + id;
             General.ExecuteNonQuery(Sql);
-            return View("Index");
+            return Json(new { success = true });
         }
 
         List<CarrierProfile> DataTableToObjectIndex(DataTable dt)
@@ -356,6 +436,10 @@ namespace SoftinnBookingSystem.Controllers
                 {
                     bi.CompanyName = (dr["CompanyName"].ToString());
                 }
+                if (dr["Abbreviation"] != DBNull.Value)
+                {
+                    bi.Abbreviation = (dr["Abbreviation"].ToString());
+                }
                 if (dr["CommissionPercentage"] != DBNull.Value)
                 {
                     bi.CommissionPercentage = int.Parse(dr["CommissionPercentage"].ToString());
@@ -383,10 +467,6 @@ namespace SoftinnBookingSystem.Controllers
                 if (dr["ZipCode"] != DBNull.Value)
                 {
                     bi.ZipCode = (dr["ZipCode"].ToString());
-                }
-                if (dr["EnableWeeklyPaymentsReportings"] != DBNull.Value)
-                {
-                    bi.EnableWeeklyPaymentsReportings = bool.Parse(dr["EnableWeeklyPaymentsReportings"].ToString());
                 }
                 if (dr["USDOT"] != DBNull.Value)
                 {
@@ -508,6 +588,18 @@ namespace SoftinnBookingSystem.Controllers
                 if (dr["CertificateOfInsurance"] != DBNull.Value)
                 {
                     bi.CertificateOfInsurance = (dr["CertificateOfInsurance"].ToString());
+                }
+                if (dr["NOA"] != DBNull.Value)
+                {
+                    bi.NOA = (dr["NOA"].ToString());
+                }
+                if (dr["Other1"] != DBNull.Value)
+                {
+                    bi.Other1 = (dr["Other1"].ToString());
+                }
+                if (dr["Other2"] != DBNull.Value)
+                {
+                    bi.Other2 = (dr["Other2"].ToString());
                 }
 
                 lstCarrierProfile.Add(bi);

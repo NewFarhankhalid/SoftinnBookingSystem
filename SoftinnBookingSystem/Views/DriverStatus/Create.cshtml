@@ -1,0 +1,150 @@
+﻿@model SoftinnBookingSystem.Models.DriverStatus
+@{
+    ViewBag.Title = "Create";
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Driver Status</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="box-body">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                @Html.HiddenFor(model => model.DriverStatusID)
+                @Html.Label("Driver", htmlAttributes: new { @class = "control-label " })
+                @Html.DropDownListFor(model => model.DriverID, (SelectList)ViewBag.Driver, "Select..", htmlAttributes: new { @class = "form-control Select2" })
+                @Html.ValidationMessageFor(model => model.DriverID, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-6">
+                <br />
+                <div class="form-check" style="display: flex; align-items: center;">
+                    <label for="InActive" style="font-weight: bold; margin-right: 5px;">InActive</label>
+                    <br />
+                    @Html.CheckBoxFor(model => model.InActive, new { @class = "form-check-input", @id = "InActive" })
+                </div>
+            </div>
+        </div>
+
+        <div id="inactiveFields" style="display: none;">
+            <div class="row">
+                <div class="col-md-6">
+                    @Html.Label("From Date", htmlAttributes: new { @class = "control-label " })
+                    <div class="input-group">
+                        @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
+                        <div class="input-group-append">
+                            <span class="input-group-text"></span>
+                        </div>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6">
+                    @Html.Label("To Date", htmlAttributes: new { @class = "control-label " })
+                    <div class="input-group">
+                        @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
+                        <div class="input-group-append">
+                            <span class="input-group-text"></span>
+                        </div>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.Label("Comments", htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <br />
+                <div class="form-check" style="display: flex; align-items: center;">
+                    <label for="LockDriver" style="font-weight: bold; margin-right: 5px;">LockDriver</label>
+                    @Html.CheckBoxFor(model => model.LockDriver, new { @class = "form-check-input", @id = "LockDriver" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                @Html.Label("Emergency Comments", htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.EmergencyComments, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EmergencyComments, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="row">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-success float-right" onclick="SaveRecord()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    var FromDate = '@Model.FromDate.ToString("yyyy-MM-ddTHH:mm")';
+    $("#FromDate").val(FromDate);
+
+    var ToDate = '@Model.ToDate.ToString("yyyy-MM-ddTHH:mm")';
+    $("#ToDate").val(ToDate);
+
+    $(document).ready(function () {
+        function toggleInactiveFields() {
+            if ($('#InActive').is(':checked')) {
+                $('#inactiveFields').show();
+            } else {
+                $('#inactiveFields').hide();
+            }
+        }
+
+        toggleInactiveFields();
+
+        $('#InActive').change(function () {
+            toggleInactiveFields();
+        });
+    });
+
+    function SaveRecord() {
+        var formData = new FormData();
+        formData.append('DriverStatusID', $("#DriverStatusID").val());
+        formData.append('DriverID', $("#DriverID").val());
+        formData.append('InActive', $("#InActive").is(':checked') ? 'true' : 'false');
+        formData.append('FromDate', $("#FromDate").val());
+        formData.append('ToDate', $("#ToDate").val());
+        formData.append('Comments', $("#Comments").val());
+        formData.append('LockDriver', $("#LockDriver").is(':checked') ? 'true' : 'false');
+        formData.append('EmergencyComments', $('#EmergencyComments').val());
+
+        $.ajax({
+            type: "POST",
+            url: "/DriverStatus/Create",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (r) {
+                window.location.href = "/DriverStatus/Index";
+            },
+            error: function (x, e) {
+                // Handle errors here
+            }
+        });
+    }
+</script>

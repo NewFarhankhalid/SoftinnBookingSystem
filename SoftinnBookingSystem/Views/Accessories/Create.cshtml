@@ -1,0 +1,164 @@
+﻿@model SoftinnBookingSystem.Models.Accessories
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="box">
+    <div class="box-header" style="text-align: center;">
+        <h3 class="box-title" style="font-weight: bold;">Accessories</h3>
+    </div>
+</div>
+
+@Html.AntiForgeryToken()
+<div class="box-body">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-success">
+                <div class="box-header">
+                    <h3 class="box-title">
+                    </h3>
+                </div>
+
+                <div class="box-body">
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.id)
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label " })
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+                <div id="ChechAccessoriesSuggestions">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+  
+   
+</div>
+<br />
+<br />
+<div class="col-md-6">
+    <input type="button" value="Back" onclick="BackToList()" class="btn btn-success" />
+    <div class="float-right">
+        <input type="button" value="Save" id="Save" onclick="Save(); return false;" class="btn btn-primary" />
+    </div>
+</div>
+
+
+@*<div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<style>
+    .col-md-2 {
+        max-width: 100%;
+    }
+</style>
+
+
+<link href="~/bower_components/summernote/summernote-bs4.css" rel="stylesheet" />
+<script src="~/bower_components/summernote/summernote-bs4.js"></script>
+
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Bootbox JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+
+
+<script>
+
+    $('#Name').on('input', function () {
+        var inputValue = $(this).val().trim();
+
+        // Check if inputValue is not empty
+        if (inputValue) {
+            // Send AJAX request to the server to fetch existing categories
+            $.ajax({
+                type: 'POST',
+                url: '/Accessories/CheckStatus', // Endpoint to check for existing categories
+                data: JSON.stringify({ Status: inputValue }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    var data = r.split(',');
+                    $('#CheckAccessoriesSuggestions').html('');
+                    if (data[0] == "true") {
+                        $('#CheckAccessoriesSuggestions').append('<div>' + data[1] + '</div>');
+                        $("#Save").prop('disabled', true);
+                    } else {
+                        $('#CheckAccessoriesSuggestions').append('<div>No matching found.</div>');
+                        $("#Save").prop('disabled', false);
+                    }
+                },
+                error: function (x, e) {
+                    bootbox.alert("Error");
+                },
+            });
+        } else {
+            $('#CheckAccessoriesSuggestions').html('');
+        }
+    });
+
+
+
+
+    function BackToList() {
+        window.location.href = '/Accessories/Index';
+    }
+
+
+
+    function Save() {
+
+        var objComodity = {};
+        objComodity.Id = $("#id").val();
+        objComodity.Name = $("#Name").val();
+
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Accessories/Create",
+            data: JSON.stringify(objComodity),
+            contentType: "application/json; charset=utf-8",
+            success: function (r) {
+                var data = r.split(",");
+
+                window.location.href = "/Accessories/Index";
+            },
+            error: function (x, e) {
+                bootbox.alert("Error");
+            },
+            async: false
+        });
+    }
+</script>
+
+
+

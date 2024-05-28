@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SoftinnBookingSystem
 {
@@ -33,7 +34,6 @@ namespace SoftinnBookingSystem
             objsli.Add(new SelectListItem() { Text = "Invoice Issued", Value = 6.ToString() });
             objsli.Add(new SelectListItem() { Text = "Invoice Cleared", Value = 7.ToString() });
             objsli.Add(new SelectListItem() { Text = "Completed", Value = 8.ToString() });
-            objsli.Add(new SelectListItem() { Text = "Cancelled", Value = 9.ToString() });
             SelectList sl = new SelectList(objsli, "Value", "Text", selectedvalue.ToString());
             return sl;
         }
@@ -126,6 +126,100 @@ On Dispatcher.UserID= Users.UserID" + whereclause);
             return sl;
         }
 
+        public SelectList GetCompanyName(string whereclause = "", int selectedvalue = 0)
+        {
+            DataTable dt = General.FetchData(@" select * from CarrierProfile" + whereclause);
+            List<SelectListItem> objsli = new List<SelectListItem>();
+            SelectListItem si = new SelectListItem();
+            foreach (DataRow dr in dt.Rows)
+            {
+                si = new SelectListItem();
+                si.Value = dr["CarrierID"].ToString();
+                si.Text = (dr["CompanyName"]).ToString();
+                objsli.Add(si);
+            }
+            SelectList sl = new SelectList(objsli, "Value", "Text", selectedvalue);
+            return sl;
+        }
+
+        public SelectList GetAccessory(string whereclause = "", int selectedvalue = 0)
+        {
+            DataTable dt = General.FetchData(@" select * from Accessories" + whereclause);
+            List<SelectListItem> objsli = new List<SelectListItem>();
+            SelectListItem si = new SelectListItem();
+            foreach (DataRow dr in dt.Rows)
+            {
+                si = new SelectListItem();
+                si.Value = dr["id"].ToString();
+                si.Text = (dr["Name"]).ToString();
+                objsli.Add(si);
+            }
+            SelectList sl = new SelectList(objsli, "Value", "Text", selectedvalue);
+            return sl;
+        }
+
+        public SelectList GetVehicle(string whereclause = "", int selectedvalue = 0)
+        {
+            DataTable dt = General.FetchData(@"SELECT * FROM Vehicle" + whereclause);
+            List<SelectListItem> objsli = new List<SelectListItem>();
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                SelectListItem si = new SelectListItem
+                {
+                    Value = dr["VehicleID"].ToString(),
+                    Text = $"{dr["VehicleName"]}-{dr["Length"]}-{dr["Width"]}-{dr["Hieght"]}-{dr["WeightCapacity"]}"
+                };
+                objsli.Add(si);
+            }
+
+            SelectList sl = new SelectList(objsli, "Value", "Text", selectedvalue);
+            return sl;
+        }
+
+        public SelectList GetDesignationList(string whereclause = "", int selectedvalue = 0)
+        {
+            DataTable dtEmployee = General.FetchData("Select * from DesignationInfo " + whereclause);
+            List<SelectListItem> objsli = new List<SelectListItem>();
+            SelectListItem si = new SelectListItem();
+            foreach (DataRow dr in dtEmployee.Rows)
+            {
+                si = new SelectListItem();
+
+                si.Text = dr["DesignationTitle"].ToString();
+                si.Value = dr["DesignationID"].ToString();
+                objsli.Add(si);
+            }
+            SelectList sl = new SelectList(objsli, "Value", "Text", selectedvalue);
+            return sl;
+
+        }
+        public SelectList GetDeparmentList(string whereclause = "", int selectedvalue = 0)
+        {
+            DataTable dtEmployee = General.FetchData("Select * from DeparmentInfo " + whereclause);
+            List<SelectListItem> objsli = new List<SelectListItem>();
+            SelectListItem si = new SelectListItem();
+            foreach (DataRow dr in dtEmployee.Rows)
+            {
+                si = new SelectListItem();
+
+                si.Text = dr["DeparmentTitle"].ToString();
+                si.Value = dr["DeparmentID"].ToString();
+                objsli.Add(si);
+            }
+            SelectList sl = new SelectList(objsli, "Value", "Text", selectedvalue);
+            return sl;
+
+        }
+
+        public SelectList GetGender(int selectedvalue = 0)
+        {
+            List<SelectListItem> objsli = new List<SelectListItem>();
+            objsli.Add(new SelectListItem() { Text = "Male", Value = 1.ToString() });
+            objsli.Add(new SelectListItem() { Text = "Female", Value = 2.ToString() });
+            SelectList sl = new SelectList(objsli, "Value", "Text", selectedvalue.ToString());
+            return sl;
+        }
         public SelectList GetAssignedBookingAgent(string whereclause = "", int selectedvalue = 0)
         {
             // Construct the query with the WHERE clause

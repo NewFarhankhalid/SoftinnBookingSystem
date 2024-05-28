@@ -11,7 +11,16 @@ namespace SoftinnBookingSystem
     public class General
     {
         public static string ConnectionString { get; set; }
-
+        public static int UserID {
+            get
+            {
+                return int.Parse(System.Web.HttpContext.Current.Request.Cookies["UserID"].Value.ToString());
+            }
+            set
+            {
+                return;
+            }
+        }
         public static DataTable FetchData(string query)
         {
             SqlConnection con = new SqlConnection(ConnectionString);

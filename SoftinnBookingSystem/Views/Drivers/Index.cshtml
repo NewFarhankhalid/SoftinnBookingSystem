@@ -59,14 +59,14 @@
                             <tr>
 
                                 @*<td>
-                                    <div class="copy-container">
-                                        <i class="far fa-copy copy-icon"></i>
-                                        <span class="copy-text">@Driver.DriverID</span>
-                                    </div>
-                                </td>*@
+            <div class="copy-container">
+                <i class="far fa-copy copy-icon"></i>
+                <span class="copy-text">@Driver.DriverID</span>
+            </div>
+        </td>*@
 
                                 <td>@Driver.DriverName</td>
-                                <td>@Driver.Carrier</td>
+                                <td>@(Driver.lstCP.FirstOrDefault()?.CompanyName)</td>
                                 @*<td>
             <div class="SnowMenu">
                 <button type="button" class="btn btn-orange btn-xs arrow-none dropdown-toggle waves-effect waves-light">

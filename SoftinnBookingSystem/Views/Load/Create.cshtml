@@ -40,35 +40,33 @@
 <div class="box-body">
     <div class="card-body">
         <div class="row">
+        </div>
 
+
+
+        <div class="row">
+            <div class="col-md-4">
+                @Html.Label("Select Driver", htmlAttributes: new { @class = "control-label " })
+                @Html.DropDownListFor(model => model.Driver, (SelectList)ViewBag.Driver, "Select..", htmlAttributes: new { @class = "form-control Select2" })
+                @Html.ValidationMessageFor(model => model.Driver, "", new { @class = "text-danger" })
+            </div>
             <div class="col-md-6">
-                <div class="form-group">
-                    <input type="checkbox" id="bookingAgentCheckbox" style="margin-top: 0;">
-                    <label for="bookingAgentCheckbox" class="ml-1">Load for booking agent</label>
-                </div>
+                @Html.Label("Company Name", htmlAttributes: new { @class = "control-label required" })
+                @Html.EditorFor(model => model.Carrier, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Carrier, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2">
+                @Html.Label("MC#", htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.MC, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MC, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="col-md-6">
-            @Html.Label("Assigned Booking Agents", htmlAttributes: new { @class = "control-label " })
-            @Html.DropDownList("BookingAgent", (SelectList)ViewBag.BookingAgent, "Select..", htmlAttributes: new { @class = "form-control Select2", id = "BookingAgent" })
-            @Html.ValidationMessage("BookingAgent", "", new { @class = "text-danger" })
-        </div>
 
-
-
-        <div class="col-md-6">
-            @Html.Label("Select Driver", htmlAttributes: new { @class = "control-label " })
-            @Html.DropDownList("Driver", (SelectList)ViewBag.Driver, "Select..", htmlAttributes: new { @class = "form-control Select2" })
-            @Html.ValidationMessage("Driver", "", new { @class = "text-danger" })
-        </div>
-
-
-
+        <br />
 
         <div class="col-md-12" style="text-align: right;">
             <button type="button" class="fa fa-map" onclick="redirectToMaps()">Show Map</button>
         </div>
-    
 
 
 
@@ -77,7 +75,8 @@
 
 
 
-  
+
+
         <div class="box-body">
             <div class="form-horizontal">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -162,132 +161,242 @@
                         @Html.ValidationMessageFor(model => model.LoadID, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-6">
-                        @Html.Label("Comodity", htmlAttributes: new { @class = "control-label " })
-                        @Html.DropDownList("Comodity", (SelectList)ViewBag.Comodity, "Select..", htmlAttributes: new { @class = "form-control Select2", id = "Comodity" })
+                        @Html.Label("Comodity", htmlAttributes: new { @class = "control-label" })
+                        <div class="input-group">
+                            @Html.DropDownList("Comodity", (SelectList)ViewBag.Comodity, "Select..", htmlAttributes: new { @class = "form-control Select2", id = "Comodity" })
+                            <div class="input-group-append">
+                                <a href="javascript:void(0);" class="btn btn-outline-secondary" title="Add Vehicle" onclick="openAddUserModal()">
+                                    <i class="fas fa-plus"></i>
+                                </a>
+                                <a href="@Url.Action("Index", "Comodity")" class="btn btn-outline-secondary" title="Edit Vehicle">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            </div>
+                        </div>
                         @Html.ValidationMessage("Comodity", "", new { @class = "text-danger" })
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        @Html.Label("Comments", htmlAttributes: new { @class = "control-label required" })
-                        @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.Label("Comments", htmlAttributes: new { @class = "control-label required" })
+                            @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+        <br />
 
-    <br />
 
-
-    <div class="row">
-        <div class="col-md-12">
-            <section class="content">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="card card-primary">
-                                <div class="card-header">
-                                    <h3 class="card-title">Pickup Information</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            @Html.Label("Shipper", htmlAttributes: new { @class = "control-label " })
-                                            @Html.DropDownListFor(model => model.Shipper, (SelectList)ViewBag.Broker, "Select..", htmlAttributes: new { @class = "form-control Select2" })
-                                            @Html.ValidationMessageFor(model => model.Shipper, "", new { @class = "text-danger" })
-                                        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card card-primary">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Pickup Information</h3>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-7">
-                                            @Html.Label("Load Pickup Date Time", htmlAttributes: new { @class = "control-label " })
-                                            <div class="input-group">
-                                                @Html.EditorFor(model => model.LoadPickupDateTime, new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text"></span>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                @Html.Label("Load Pickup Date Time", htmlAttributes: new { @class = "control-label " })
+                                                <div class="input-group">
+                                                    @Html.EditorFor(model => model.LoadPickupDateTime, new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text"></span>
+                                                    </div>
                                                 </div>
+                                                @Html.ValidationMessageFor(model => model.LoadPickupDateTime, "", new { @class = "text-danger" })
                                             </div>
-                                            @Html.ValidationMessageFor(model => model.LoadPickupDateTime, "", new { @class = "text-danger" })
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            @Html.Label("Pickup Address", htmlAttributes: new { @class = "control-label " })
-                                            @Html.EditorFor(model => model.PickupAddress, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.PickupAddress, "", new { @class = "text-danger" })
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                @Html.Label("Pickup Address", htmlAttributes: new { @class = "control-label " })
+                                                @Html.EditorFor(model => model.PickupAddress, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.PickupAddress, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            @Html.Label("Pickup Instructions", htmlAttributes: new { @class = "control-label " })
-                                            @Html.EditorFor(model => model.PickupInstructions, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.PickupInstructions, "", new { @class = "text-danger" })
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                @Html.Label("Pickup Instructions", htmlAttributes: new { @class = "control-label " })
+                                                @Html.EditorFor(model => model.PickupInstructions, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.PickupInstructions, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card card-primary">
-                                <div class="card-header">
-                                    <h3 class="card-title">Delivery Information</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            @Html.Label("Consignee", htmlAttributes: new { @class = "control-label " })
-                                            @Html.EditorFor(model => model.Consignee, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.Consignee, "", new { @class = "text-danger" })
-                                        </div>
+                            <div class="col-md-6">
+                                <div class="card card-primary">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Delivery Information</h3>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-7">
-                                            @Html.Label("Load Dropoff Date Time", htmlAttributes: new { @class = "control-label required" })
-                                            <div class="input-group">
-                                                @Html.EditorFor(model => model.LoadDropOffDateTime, new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text"></span>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                @Html.Label("Load Dropoff Date Time", htmlAttributes: new { @class = "control-label required" })
+                                                <div class="input-group">
+                                                    @Html.EditorFor(model => model.LoadDropOffDateTime, new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text"></span>
+                                                    </div>
                                                 </div>
+                                                @Html.ValidationMessageFor(model => model.LoadDropOffDateTime, "", new { @class = "text-danger" })
                                             </div>
-                                            @Html.ValidationMessageFor(model => model.LoadDropOffDateTime, "", new { @class = "text-danger" })
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            @Html.Label("Dropoff Address", htmlAttributes: new { @class = "control-label " })
-                                            @Html.EditorFor(model => model.DropOffAddress, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.DropOffAddress, "", new { @class = "text-danger" })
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                @Html.Label("Dropoff Address", htmlAttributes: new { @class = "control-label " })
+                                                @Html.EditorFor(model => model.DropOffAddress, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.DropOffAddress, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            @Html.Label("Pickup Instructions", htmlAttributes: new { @class = "control-label " })
-                                            @Html.EditorFor(model => model.PickupInstructionsAtDelivery, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.PickupInstructionsAtDelivery, "", new { @class = "text-danger" })
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                @Html.Label("Dropoff Instructions", htmlAttributes: new { @class = "control-label " })
+                                                @Html.EditorFor(model => model.PickupInstructionsAtDelivery, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.PickupInstructionsAtDelivery, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </section>
+            </div>
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Broker</h3>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </section>
+            </div>
+        </section>
+
+
+    <div class="box-body">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    @Html.Label("Select..", htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        @Html.DropDownList("Shipper", (SelectList)ViewBag.Broker, "Select..", htmlAttributes: new { @class = "form-control Select2", id = "Shipper" })
+                        <div class="input-group-append">
+                            <a href="javascript:void(0);" class="btn btn-outline-secondary" title="Add Vehicle" onclick="openAddUserModal1()">
+                                <i class="fas fa-plus"></i>
+                            </a>
+                            <a href="@Url.Action("Index", "Brooker")" class="btn btn-outline-secondary" title="Edit Vehicle">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                    @Html.ValidationMessage("Shipper", "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    @Html.Label("Agent Name", htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.AgentName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.AgentName, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6">
+                    @Html.Label("Agent Phone", htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.AgentPhone, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.AgentPhone, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
+    </div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-success float-right" onclick="SaveRecord()">Save</button>
+            </div>
+        </div>
+
     </div>
 
 
 
 
-
-    <div class="row">
-        <div class="col-md-12">
-            <button type="button" class="btn btn-success float-right" onclick="SaveRecord()">Save</button>
+<div class="modal fade" id="myOperator" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Add Comodity</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="VehicleName" />
+                <label>Name</label>
+                <input type="text" class="form-control" id="Name" />
+                <span class="text-danger" style="display:none" id="vehiclename">Please enter Name</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="AddBrand()">Save Changes</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
-
 </div>
+
+
+<div class="modal fade" id="myOperator1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Add Broker</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="BrokerName" />
+                <label>Broker MC#</label>
+                <input type="text" class="form-control" id="Name" />
+                <span class="text-danger" style="display:none" id="brokername">Please enter Broker Name</span>
+
+                <label>Broker USDOT</label>
+                <input type="text" class="form-control" id="BrokerUSDot" />
+                <span class="text-danger" style="display:none" id="brokerusdot">Please enter Broker USDOT</span>
+
+                <label>Broker Business Name</label>
+                <input type="text" class="form-control" id="BrokerBusinessName" />
+                <span class="text-danger" style="display:none" id="brokerbusinessname">Please enter Broker Business Name</span>
+
+                <label>Broker Email</label>
+                <input type="text" class="form-control" id="BrokerEmail" />
+                <span class="text-danger" style="display:none" id="brokeremail">Please enter Broker Email</span>
+
+                <label>Broker Phone</label>
+                <input type="text" class="form-control" id="BrokerPhone" />
+                <span class="text-danger" style="display:none" id="brokerphone">Please enter Broker Phone</span>
+
+                <label>Broker Address</label>
+                <input type="text" class="form-control" id="BrokerAddress" />
+                <span class="text-danger" style="display:none" id="brokeraddress">Please enter Broker Address</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="AddBrand1()">Save Changes</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -295,7 +404,13 @@
 
 <script>
 
+    function openAddUserModal() {
+        $('#myOperator').modal('show');
+    }
 
+    function openAddUserModal1() {
+        $('#myOperator1').modal('show');
+    }
 
     function redirectToMaps() {
         // Retrieve the values of Origin and Destination
@@ -311,6 +426,49 @@
 
 
 
+    $(document).ready(function () {
+        $('#Driver').change(function () {
+            var driverId = $(this).val();
+            if (driverId) {
+                $.ajax({
+                    url: '/Load/GetCompanyName?driverId=' + driverId,
+                    type: 'GET',
+                    success: function (data) {
+                        if (data.CompanyName) {
+                            $('#Carrier').val(data.CompanyName);
+
+                            // Fetch the MC number using the CarrierID
+                            $.ajax({
+                                url: '/Load/GetMC?carrierID=' + data.CarrierID,
+                                type: 'GET',
+                                success: function (mcData) {
+                                    $('#MC').val(mcData);
+                                },
+                                error: function () {
+                                    $('#MC').val('');
+                                    // $('#mcValidationError').text('Error fetching MC number');
+                                }
+                            });
+                        } else {
+                            $('#Carrier').val('');
+                            $('#MC').val('');
+                        }
+                    },
+                    error: function () {
+                        $('#Carrier').val('');
+                        $('#MC').val('');
+                        // $('#driverValidationError').text('Error fetching company name');
+                    }
+                });
+            } else {
+                $('#Carrier').val('');
+                $('#MC').val('');
+                // $('#driverValidationError').text('');
+            }
+        });
+    });
+
+
 
 
 
@@ -324,15 +482,7 @@ $("#LoadPickupDateTime").val(loadPickupDateTime);
     var LoadDropOffDateTime = '@Model.LoadPickupDateTime.ToString("yyyy-MM-ddTHH:mm")';
     $("#LoadDropOffDateTime").val(LoadDropOffDateTime);
 
-    $(document).ready(function () {
-        $('#bookingAgentCheckbox').change(function () {
-            if ($(this).is(':checked')) {
-                $('#BookingAgent').parent().show(); // Show the parent div of the DropDownList
-            } else {
-                $('#BookingAgent').parent().hide(); // Hide the parent div of the DropDownList
-            }
-        });
-    });
+   
 
 
     function clearDefaultValue(element) {
@@ -342,13 +492,80 @@ $("#LoadPickupDateTime").val(loadPickupDateTime);
     }
 
 
+    function AddBrand() {
+        // Check if the modal is being opened correctly
+        console.log("Modal Opened");
+
+        var objComodity = {
+            Name: $("#Name").val(),
+       
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/Load/AddComodity",
+            data: JSON.stringify(objComodity),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log("Ajax Success"); // Check if AJAX request is successful
+                if (response) {
+                    displayToastMessage("Success", "Comodity added successfully.", "success");
+                    $("#myOperator").modal("hide");
+                } else {
+                    displayToastMessage("Error", "Failed to add user.", "error");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("AJAX error:", status, error);
+                displayToastMessage("Error", "An error occurred: " + status + " - " + error, "error");
+            }
+        });
+    }
+
+    function AddBrand1() {
+        // Check if the modal is being opened correctly
+        console.log("Modal Opened");
+
+        var Brooker = {
+            BrookerMC: $("#Name").val(),
+            BrookerUsDot: $("#BrokerUSDot").val(),
+            BrookerBusinessName: $("#BrokerBusinessName").val(),
+            BrookerEmail: $("#BrokerEmail").val(),
+            BrookerPhone: $("#BrokerPhone").val(),
+            BrookerAddress: $("#BrokerAddress").val(),
+
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/Load/AddBroker",
+            data: JSON.stringify(Brooker),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log("Ajax Success"); // Check if AJAX request is successful
+                if (response) {
+                    displayToastMessage("Success", "Broker added successfully.", "success");
+                    $("#myOperator1").modal("hide");
+                } else {
+                    displayToastMessage("Error", "Failed to add user.", "error");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("AJAX error:", status, error);
+                displayToastMessage("Error", "An error occurred: " + status + " - " + error, "error");
+            }
+        });
+    }
 
 
 
     function SaveRecord() {
         var objLoad = {}
         objLoad.Driver = $("#Driver").val();
-        objLoad.BookingAgent = $("#BookingAgent").val();
+        objLoad.Carrier = $("#Carrier").val();
+        objLoad.MC = $("#MC").val();
         objLoad.LoadOrigin = $("#LoadOrigin").val();
         objLoad.LoadDestination = $("#LoadDestination").val();
         objLoad.LoadWeight = $("#LoadWeight").val();
@@ -361,6 +578,8 @@ $("#LoadPickupDateTime").val(loadPickupDateTime);
         objLoad.Comodity = $("#Comodity").val();
         objLoad.Comments = $("#Comments").val();
         objLoad.Shipper = $("#Shipper").val();
+        objLoad.AgentName = $("#AgentName").val();
+        objLoad.AgentPhone = $("#AgentPhone").val();
         objLoad.LoadPickupDateTime = $("#LoadPickupDateTime").val();
         objLoad.PickupAddress = $("#PickupAddress").val();
         objLoad.PersonAtPickup = $("#PersonAtPickup").val();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.Web.UI.WebControls;
 
 namespace SoftinnBookingSystem.Models
 {
@@ -11,8 +12,9 @@ namespace SoftinnBookingSystem.Models
         public int ID { get; set; }
 
         public DateTime DateCreated { get; set; }
-        public int BookingAgent { get; set; }
         public int Driver { get; set; }
+        public string MC { get; set; }
+        public string Carrier { get; set; }
         [Required]
         public string LoadOrigin { get; set; }
         [Required]
@@ -38,6 +40,9 @@ namespace SoftinnBookingSystem.Models
         public int Comodity { get; set; }
 
         public int Shipper { get; set; }
+
+        public string AgentName { get; set; }
+        public string AgentPhone { get; set; }
         public DateTime LoadPickupDateTime { get; set; }
         public string PickupAddress { get; set; }
         public string PersonAtPickup { get; set; }
@@ -49,8 +54,18 @@ namespace SoftinnBookingSystem.Models
         public string PersonAtPickupAtDelivery { get; set; }
         public string ContactPhoneAtDelivery { get; set; }
         public string PickupInstructionsAtDelivery { get; set; }
+        public bool InEmergency { get; set; }
+        public string EmergencyRemarks { get; set; }
+        public bool IsCancelled { get; set; }
+        public string CancelledRemarks { get; set; }
+        public string CompanyName { get; set; }
+        public int CommissionPercentage { get; set; }
+
+        public string DriverName { get; set; }
+        public string OwnerName { get; set; }
+
 
         public List<Drivers> lstDriver = new List<Drivers>();
-        public List<Brooker> lstBroker = new List<Brooker>();
+        public List<CarrierProfile> lstCP = new List<CarrierProfile>();
     }
 }

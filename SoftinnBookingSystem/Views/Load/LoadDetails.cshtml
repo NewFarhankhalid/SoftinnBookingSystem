@@ -4,115 +4,147 @@
 }
 
 <h2>LoadDetails</h2>
+@Html.AntiForgeryToken()
 
 <div class="row">
     <div class="col-md-5">
-
         <form>
-
             <div class="col-md-5">
                 @Html.Label("Change load status", htmlAttributes: new { @class = "control-label " })
-                @Html.DropDownList("LoadStatus", (SelectList)ViewBag.LoadStatus, "Select..", htmlAttributes: new { @class = "form-control Select2", id = "LoadStatus" })
+                @Html.DropDownList("LoadStatus", (SelectList)ViewBag.LoadStatus, "Select..", htmlAttributes: new { @class = "form-control Select2", id = "LoadStatus", onchange = "changeLoadStatus(this.value, " + @Model.ID + ")" })
                 @Html.ValidationMessage("LoadStatus", "", new { @class = "text-danger" })
             </div>
+            @Html.HiddenFor(model => model.ID)
+            <div class="row">
+                <div class="col-md-6">
+                    <br />
+                    <div class="form-check" style="display: flex; align-items: center;">
+                        <label for="InEmergency" style="font-weight: bold; margin-right: 5px;">InEmergency</label>
+                        @Html.CheckBoxFor(model => model.InEmergency, new { @class = "form-check-input", @id = "InEmergency" })
+                    </div>
+                </div>
+            </div>
 
+            <div id="emergencyRemarksSection" class="row">
+                <div class="col-md-12">
+                    @Html.Label("Emergency Remarks", htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.EmergencyRemarks, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.EmergencyRemarks, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <br />
+                    <div class="form-check" style="display: flex; align-items: center;">
+                        <label for="IsCancelled" style="font-weight: bold; margin-right: 5px;">IsCancelled</label>
+                        @Html.CheckBoxFor(model => model.IsCancelled, new { @class = "form-check-input", @id = "IsCancelled" })
+                    </div>
+                </div>
+            </div>
+
+            <div id="cancelledRemarksSection" class="row">
+                <div class="col-md-12">
+                    @Html.Label("Cancelled Remarks", htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.CancelledRemarks, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CancelledRemarks, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-success " onclick="SaveRecord()">Save</button>
+                </div>
+            </div>
         </form>
     </div>
-
-    <div class="col-md-7">
-        <table class="table  ">
-
-
-            <tr>
-                <th class="col-md-2">Load No:</th>
-                <td class="col-md-2">@Model.LoadID</td>
-                <th class="col-md-2">Pickup Date Time</th>
-                <td class="col-md-2">@Model.LoadPickupDateTime</td>
-            </tr>
-            <tr>
-
-                <th class="col-md-2">Invoice Status</th>
-                <td class="col-md-2">@Model.LoadID</td>
-                <th class="col-md-2">Email:</th>
-                <td class="col-md-2">@Model.LoadID</td>
-
-
-            </tr>
-
-            @*<tr>
-                <th class="col-md-2">City Name:</th>
-                <td class="col-md-2">@Model.CityName</td>
-                <th class="col-md-2">Address:</th>
-                <td class="col-md-2" colspan="3">@Model.Address</td>
-
-
-            </tr>
-            <tr>
-                <th class="col-md-2">BusinessNature:</th>
-                <td class="col-md-2">@Model.BusinessNature</td>
-                <th class="col-md-2">Password:</th>
-                <td class="col-md-2">@Model.Password</td>
-            </tr>
-            <tr>
-                <th class="col-md-2">Date of Joining:</th>
-                <td class="col-md-2"><strong class=" text-orange">@(DateTime.Parse(Model.CreatedDate.ToString()).ToString("MM-dd-yyyy"))</strong></td>
-                <th class="col-md-2">Expiry Date:</th>
-                <td class="col-md-2"><strong class=" text-orange">@(DateTime.Parse(Model.ExpiryDate.ToString()).ToString("MM-dd-yyyy"))</strong></td>
-            </tr>
-            <tr>
-                <th class="col-md-2">Open Time:</th>
-                <td class="col-md-2"><strong class="text-orange">@Model.OpenTime</strong></td>
-                <th class="col-md-2">Off Time:</th>
-                <td class="col-md-2"><strong class="text-orange">@Model.OffTime</strong></td>
-            </tr>
-            <tr>
-                @if (@Model.OffDay == "1")
-                {
-                    <th class="col-md-2">Off Day:</th>
-                    <td class="col-md-2"><strong class="text-orange">Friday</strong></td>
-
-                }
-                else if (@Model.OffDay == "2")
-                {
-                    <th class="col-md-2">Off Day:</th>
-                    <td class="col-md-2"><strong class="text-orange">Saturday</strong></td>
-
-                }
-                else if (@Model.OffDay == "3")
-                {
-                    <th class="col-md-2">Off Day:</th>
-                    <td class="col-md-2"><strong class="text-orange">Sunday</strong></td>
-
-                }
-                else if (@Model.OffDay == "4")
-                {
-                    <th class="col-md-2">Off Day:</th>
-                    <td class="col-md-2"><strong class="text-orange">Monday</strong></td>
-
-                }
-                else if (@Model.OffDay == "5")
-                {
-                    <th class="col-md-2">Off Day:</th>
-                    <td class="col-md-2"><strong class="text-orange">Tuesday</strong></td>
-
-                }
-                else if (@Model.OffDay == "6")
-                {
-                    <th class="col-md-2">Off Day:</th>
-                    <td class="col-md-2"><strong class="text-orange">Wednesday</strong></td>
-
-                }
-                else if (@Model.OffDay == "7")
-                {
-                    <th class="col-md-2">Off Day:</th>
-                    <td class="col-md-2"><strong class="text-orange">Thursday</strong></td>
-
-                }
-
-
-
-            </tr>*@
-        </table>
-
-    </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Initially show or hide the Emergency Remarks and Cancelled Remarks sections based on the checkbox state
+        toggleRemarksSections();
+        toggleLoadStatus();
+
+        // Show or hide the Emergency Remarks section based on the InEmergency checkbox change
+        $("#InEmergency").change(function () {
+            toggleRemarksSections();
+        });
+
+        // Show or hide the Cancelled Remarks section based on the IsCancelled checkbox change
+        $("#IsCancelled").change(function () {
+            toggleRemarksSections();
+            toggleLoadStatus();
+        });
+    });
+
+    function toggleRemarksSections() {
+        if ($("#InEmergency").is(":checked")) {
+            $("#emergencyRemarksSection").show();
+        } else {
+            $("#emergencyRemarksSection").hide();
+        }
+
+        if ($("#IsCancelled").is(":checked")) {
+            $("#cancelledRemarksSection").show();
+        } else {
+            $("#cancelledRemarksSection").hide();
+        }
+    }
+
+    function toggleLoadStatus() {
+        if ($("#IsCancelled").is(":checked")) {
+            $("#LoadStatus").prop("disabled", true);
+        } else {
+            $("#LoadStatus").prop("disabled", false);
+        }
+    }
+
+    function SaveRecord() {
+        var obj1 = {};
+        obj1.ID = $("#ID").val();
+        obj1.InEmergency = $('#InEmergency').is(":checked");
+        obj1.EmergencyRemarks = $("#EmergencyRemarks").val();
+        obj1.IsCancelled = $('#IsCancelled').is(":checked");
+        obj1.CancelledRemarks = $("#CancelledRemarks").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Load/IsCancelledOrEmergency",
+            data: JSON.stringify(obj1), // Pass the entire obj1 object
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                /* console.log(r); // Log the response for debugging */
+                window.location.href = "/Load/LoadDetails";
+            },
+            error: function (x, e) {
+                /*  console.log(e); // Log any errors for debugging */
+                // Handle errors here
+            }
+        });
+    }
+
+    function changeLoadStatus(newStatus, id) {
+        $.ajax({
+            url: '@Url.Action("LoadStatus", "Load")',
+            type: 'POST',
+            dataType: 'json',
+            data: { ID: id, ChangeLoadStatus: newStatus },
+            success: function (response) {
+                if (response === true) {
+                    console.log("Load status updated successfully.");
+                } else {
+                    console.error("Failed to update load status.");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred while updating load status:", error);
+            }
+        });
+    }
+</script>

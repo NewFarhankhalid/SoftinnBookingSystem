@@ -30,8 +30,8 @@ namespace SoftinnBookingSystem.Controllers
             {
                 if (Brooker.BrookerID == 0)
                 {
-                    string Query = "INSERT INTO Brooker (BrookerMC, BrookerUSDot, BrookerBusinessName, BrookerEmail, BrookerPhone, BrookerFax, BrookerAddress) ";
-                    Query += "VALUES ('" + Brooker.BrookerMC + "','" + Brooker.BrookerUsDot + "','" + Brooker.BrookerBusinessName + "','" + Brooker.BrookerEmail + "','" + Brooker.BrookerPhone + "','" + Brooker.BrookerFax + "','" + Brooker.BrookerAddress + "')";
+                    string Query = "INSERT INTO Brooker (BrookerMC, BrookerUSDot, BrookerBusinessName, BrookerEmail, BrookerPhone,  BrookerAddress) ";
+                    Query += "VALUES ('" + Brooker.BrookerMC + "','" + Brooker.BrookerUsDot + "','" + Brooker.BrookerBusinessName + "','" + Brooker.BrookerEmail + "','" + Brooker.BrookerPhone + "','" + Brooker.BrookerAddress + "')";
                     General.ExecuteNonQuery(Query);
                 }
 
@@ -43,7 +43,6 @@ namespace SoftinnBookingSystem.Controllers
                     Query += "[BrookerBusinessName] = '" + Brooker.BrookerBusinessName + "', ";
                     Query += "[BrookerEmail] = '" + Brooker.BrookerEmail + "', ";
                     Query += "[BrookerPhone] = '" + Brooker.BrookerPhone + "', ";
-                    Query += "[BrookerFax] = '" + Brooker.BrookerFax + "', ";
                     Query += "[BrookerAddress] = '" + Brooker.BrookerAddress + "' ";
                     Query += "WHERE BrookerID = " + Brooker.BrookerID;
                     General.ExecuteNonQuery(Query);
@@ -105,10 +104,7 @@ namespace SoftinnBookingSystem.Controllers
                 {
                     bi.BrookerPhone = (dr["BrookerPhone"].ToString());
                 }
-                if (dr["BrookerFax"] != DBNull.Value)
-                {
-                    bi.BrookerFax = (dr["BrookerFax"].ToString());
-                }
+
                 if (dr["BrookerAddress"] != DBNull.Value)
                 {
                     bi.BrookerAddress = (dr["BrookerAddress"].ToString());

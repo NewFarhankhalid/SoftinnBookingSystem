@@ -96,8 +96,6 @@
             </div>
 
 
-
-
             <div class="col-md-7">
                 <div>
                     <label>Presets</label>
@@ -130,8 +128,13 @@
 
                             <th>ID#</th>
                             <th>Pickup Date</th>
+                            <th>Invoice Status</th>
+                            <th>Carrier Owner</th>
+                            <th>Carrier Name</th>
+                            <th>Driver</th>
                             <th>Value</th>
                             <th>Payable</th>
+                            <th>Carrier Percentage</th>
                             <th>RPM</th>
                             <th>Do Date</th>
                             <th>Origin</th>
@@ -144,7 +147,7 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody >
+                    <tbody>
 
                         @foreach (var Load in Model)
                         {
@@ -156,15 +159,41 @@
                                     </div>
                                 </td>
 
-                                <td>@Load.LoadPickupDateTime</td>
+                                <td>@Load.LoadPickupDateTime.ToString("yyyy-MM-dd")</td>
+                                <td>@Load.ID</td>
+                                <td>@(Load.lstCP.FirstOrDefault()?.OwnerName)</td>
+                                <td>@(Load.lstCP.FirstOrDefault()?.CompanyName)</td>
+                                <td>@(Load.lstDriver.FirstOrDefault()?.DriverName)</td>
                                 <td>@Load.LoadRate</td>
                                 <td>@Load.ID</td>
+                                <td>@(Load.lstCP.FirstOrDefault()?.CommissionPercentage)</td>
                                 <td>@Load.ID</td>
-                                <td>@Load.ID</td>
+                                <td>@Load.LoadDropOffDateTime.ToString("yyyy-MM-dd")</td>
                                 <td>@Load.LoadOrigin</td>
                                 <td>@Load.LoadDestination</td>
                                 <td>@Load.ID</td>
-                                <td>@Load.PaymentType</td>
+                                <td>
+                                    @{
+                                        string paymentType = "";
+                                        if (Load.PaymentType == 1)
+                                        {
+                                            paymentType = "Factoring";
+                                        }
+                                        else if (Load.PaymentType == 2)
+                                        {
+                                            paymentType = "Quick pay";
+                                        }
+                                        else if (Load.PaymentType == 3)
+                                        {
+                                            paymentType = "Cash on Delivery";
+                                        }
+                                        else if (Load.PaymentType == 4)
+                                        {
+                                            paymentType = "EFS Code";
+                                        }
+                                    }
+                                    @paymentType
+                                </td>
                                 <td>
                                     @if (Load.DateCreated == DateTime.MinValue)
                                     {
@@ -175,16 +204,52 @@
                                         @Load.DateCreated.ToString("yyyy-MM-dd")
                                     }
                                 </td>
-                                <td>@Load.BookingAgent</td>
                                 <td>@Load.ID</td>
                                 <td>
-                                    <button type="button" class="btn btn-primary" onclick="location.href='/Load/LoadDetails@Load.ID'">Details</button>
+                                    @{
+                                        string ChangeLoadStatus = "";
+                                        if (Load.ChangeLoadStatus == 1)
+                                        {
+                                            ChangeLoadStatus = "Published";
+                                        }
+                                        else if (Load.ChangeLoadStatus == 2)
+                                        {
+                                            ChangeLoadStatus = "Dispatced";
+                                        }
+                                        else if (Load.ChangeLoadStatus == 3)
+                                        {
+                                            ChangeLoadStatus = "Delivered";
+                                        }
+                                        else if (Load.ChangeLoadStatus == 4)
+                                        {
+                                            ChangeLoadStatus = "BOL Received";
+                                        }
+                                        else if (Load.ChangeLoadStatus == 5)
+                                        {
+                                            ChangeLoadStatus = "Carrier Paid";
+                                        }
+                                        else if (Load.ChangeLoadStatus == 6)
+                                        {
+                                            ChangeLoadStatus = "Invoice Issued";
+                                        }
+                                        else if (Load.ChangeLoadStatus == 7)
+                                        {
+                                            ChangeLoadStatus = "Invoice Cleared";
+                                        }
+                                        else if (Load.ChangeLoadStatus == 8)
+                                        {
+                                            ChangeLoadStatus = "Completed";
+                                        }
+
+                                    }
+                                    @ChangeLoadStatus
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-primary" onclick="location.href='/Load/LoadDetails/@Load.ID'">Details</button>
                                 </td>
                             </tr>
                         }
-
                     </tbody>
-
                 </table>
             </div>
             <!-- /.col-md-12 -->

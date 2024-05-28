@@ -1,0 +1,164 @@
+﻿@model SoftinnBookingSystem.Models.Vehicle
+@{
+    ViewBag.Title = "Create";
+}
+
+@Html.AntiForgeryToken()
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Vehicle<small>(New)</small></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="box-body">
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.VehicleID)
+                                <div class="row">
+
+
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">
+
+                                            @Html.Label("Vehicle Name", htmlAttributes: new { @class = "control-label " })
+                                            @Html.EditorFor(model => model.VehicleName, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.VehicleName, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">
+                                            @Html.Label("Length", htmlAttributes: new { @class = "control-label required" })
+                                            @Html.EditorFor(model => model.Length, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                                            @Html.ValidationMessageFor(model => model.Length, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">
+                                            @Html.Label("Vehicle No", htmlAttributes: new { @class = "control-label required" })
+                                            @Html.EditorFor(model => model.VehicleNo, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.VehicleNo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-6">
+                                        @Html.Label("Trailer No", htmlAttributes: new { @class = "control-label " })
+                                        @Html.EditorFor(model => model.TrailerNo, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.TrailerNo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">
+                                            @Html.Label("Width", htmlAttributes: new { @class = "control-label required" })
+                                            @Html.EditorFor(model => model.Width, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                                            @Html.ValidationMessageFor(model => model.Width, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-6">
+                                        @Html.Label("Hieght", htmlAttributes: new { @class = "control-label " })
+                                        @Html.EditorFor(model => model.Hieght, new { htmlAttributes = new { @class = "form-control" }, @type = "number" })
+                                        @Html.ValidationMessageFor(model => model.Hieght, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        @Html.Label("WeightCapacity", htmlAttributes: new { @class = "control-label " })
+                                        @Html.EditorFor(model => model.WeightCapacity, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                                        @Html.ValidationMessageFor(model => model.WeightCapacity, "", new { @class = "text-danger" })
+                                    </div>
+
+                                </div>
+
+
+
+                                <br />
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="button" class="btn btn-success float-right" onclick="SaveRecord()">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!--/.col (left) -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+</section>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+    $('input[type="number"]').on('focus', function () {
+        if ($(this).val() === '0') {
+            $(this).val('');
+        }
+    });
+    });
+
+
+    function SaveRecord() {
+        var VC = {};
+        VC.VehicleID = $("#VehicleID").val();
+        VC.VehicleName = $("#VehicleName").val();
+        VC.Length = $("#Length").val();
+        VC.VehicleNo = $("#VehicleNo").val();
+        VC.TrailerNo = $("#TrailerNo").val();     
+        VC.Width = $("#Width").val();
+        VC.Hieght = $("#Hieght").val();
+        VC.WeightCapacity = $("#WeightCapacity").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Vehicle/Create",
+            data: JSON.stringify(VC), 
+            contentType: "application/json; charset=utf-8", 
+            processData: false,
+            success: function (r) {
+                window.location.href = "/Vehicle/Index";
+            },
+            error: function (x, e) {
+                
+            }
+        });
+    }
+
+
+  
+
+
+</script>
+
+

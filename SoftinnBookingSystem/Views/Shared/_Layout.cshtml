@@ -12,18 +12,21 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-g95LnLjVtFj1JhJvQHcprvR1L9pW7Y1//a+plTSHEP2juy0gaPkRt9eAq2+SQKDUoab5G0n4zE7wjc9/3SDkwQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="path/to/dripicons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 
     <link href="~/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link href="~/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" rel="stylesheet" />
     <link href="~/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
 
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dripicons/2.0.0/webfont.css">
 
 
-   
+    <!-- Select2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
 
 
 
@@ -50,7 +53,7 @@
     <!-- jQuery -->
     @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>*@
 
-
+    <link href="~/Content/css/select2.css" rel="stylesheet" />
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -513,7 +516,24 @@
                                         <p>Add New Driver</p>
                                     </a>
                                 </li>
-
+                                <li class="nav-item">
+                                    <a href="@Url.Action("AssignDrivers", "Drivers")" class="nav-link">
+                                        <i class="far  nav-icon"></i>
+                                        <p>Assign Drivers</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "DriverStatus")" class="nav-link">
+                                        <i class="far  nav-icon"></i>
+                                        <p>Drivers Status</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("DriverRecommendation", "Drivers")" class="nav-link">
+                                        <i class="far  nav-icon"></i>
+                                        <p>Driver Recommendation</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
 
@@ -804,12 +824,12 @@
         </aside>
         <!-- /.control-sidebar -->
     </div>
+
+    <!-- Include Summernote CSS and JS -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js"></script>
+
     <!-- ./wrapper -->
-
-
-   
-
-
     <!-- jQuery -->
     <script src="~/plugins/jquery/jquery.min.js"></script>
     <!-- jQuery UI 1.11.4 -->
@@ -851,6 +871,7 @@
 
     <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/toastr.min.js"></script>
+    <script src="~/Scripts/select2.min.js"></script>
     <script>
         function displayToastMessage(title, message, type) {
             // Set up Toastr options
@@ -880,7 +901,7 @@
                 }
             }, (options.timeOut + options.extendedTimeOut) / 100); // Increment progress based on timeOut and extendedTimeOut
         }
-
+        $(".Select2").select2();
  @*displayToastMessage('@ViewBag.Message', 'Error', 'error');*@
     </script>
 </body>

@@ -1,52 +1,84 @@
 ﻿@model SoftinnBookingSystem.Models.Drivers
 @{
     ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
-<div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>Drivers</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="Home/Index">Home</a></li>
-                        <li class="breadcrumb-item active">Drivers</li>
-                    </ol>
-                </div>
-            </div>
-        </div><!-- /.container-fluid -->
-    </section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Driver<small>(New)</small></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="box-body">
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.DriverID)
+                                <div class="row">
 
-    <!-- Main content -->
-    <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <!-- left column -->
-                <div class="col-md-6">
-                    <!-- general form elements -->
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Drivers<small>(New)</small></h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <!-- form start -->
-                        <form role="form">
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Driver Name</label>
-                                    @Html.EditorFor(model => model.DriverName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Driver Name" } })
+
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">
+                                         
+                                            @Html.Label("Driver Name", htmlAttributes: new { @class = "control-label " })
+                                            @Html.EditorFor(model => model.DriverName, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.DriverName, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">
+                                            @Html.Label("Carrier", htmlAttributes: new { @class = "control-label " })
+                                            @Html.EditorFor(model => model.Carrier, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Carrier, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">
+                                            @Html.Label("Driver Email", htmlAttributes: new { @class = "control-label required" })
+                                            @Html.EditorFor(model => model.DriverEmail, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.DriverEmail, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-6">
+                                        @Html.Label("Driver Phone", htmlAttributes: new { @class = "control-label " })
+                                        @Html.EditorFor(model => model.DriverPhone, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.DriverPhone, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        @Html.Label("DriverAddress", htmlAttributes: new { @class = "control-label " })
+                                        @Html.EditorFor(model => model.DriverAddress, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.DriverAddress, "", new { @class = "text-danger" })
+                                    </div>
+                                   </div>
+                                <br />
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="button" class="btn btn-success float-right" onclick="SaveRecord()">Save</button>
+                                    </div>
                                 </div>
                             </div>
-                            <!-- /.card-body -->
-                            <div class="card-footer">
-                                <button type="submit" onclick="SaveRecord()" class="btn btn-primary">Submit</button>
-                            </div>
-                        </form>
+                        </div>
+
                     </div>
                     <!-- /.card -->
                 </div>
@@ -54,49 +86,157 @@
             </div>
             <!-- /.row -->
         </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
-</div>
+    </div>
+</section>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+
+
 
 <script>
+    $(document).ready(function () {
+        $('.Select2').select2();
+    });
+
+
+
+    @*if (@Model.CarrierID!= 0) {
+    $("#PersonTaxClassification").val(@Model.PersonTaxClassification);
+    $("#LLCTaxClassification").val(@Model.LLCTaxClassification);
+}*@
+
+    function previewFrontImage(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('frontPreview');
+            output.src = reader.result;
+            output.style.display = 'block';
+
+            // Hide existing image when a new image is selected
+            var existingImage = document.getElementById('frontExistingImage');
+            if (existingImage) {
+                existingImage.style.display = 'none';
+            }
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    function previewBackImage(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('backPreview');
+            output.src = reader.result;
+            output.style.display = 'block';
+
+            // Hide existing image when a new image is selected
+            var existingImage = document.getElementById('backExistingImage');
+            if (existingImage) {
+                existingImage.style.display = 'none';
+            }
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+
+
+
+    function openAddUserModal() {
+        $('#myOperator').modal('show');
+    }
+
+    function displayToastMessage(title, message, type) {
+        var options = {
+            closeButton: true,
+            progressBar: true,
+            timeOut: 8000,
+            extendedTimeOut: 1000,
+            positionClass: 'toast-top-right',
+            preventDuplicates: false,
+            toastClass: 'toastr-light',
+        };
+        toastr[type](message, title, options);
+    }
+
+    function AddBrand() {
+        // Check if the modal is being opened correctly
+        console.log("Modal Opened");
+
+        var objUser = {
+            VehicleName: $("#Name").val(),
+            Length: $("#Length").val(),
+            Width: $("#Width").val(),
+            Hieght: $("#Height").val(),
+            WeightCapacity: $("#WeightCapacity").val()
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/Drivers/AddVehicle",
+            data: JSON.stringify(objUser),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log("Ajax Success"); // Check if AJAX request is successful
+                if (response) {
+                    displayToastMessage("Success", "User added successfully.", "success");
+                    $("#myOperator").modal("hide");
+                } else {
+                    displayToastMessage("Error", "Failed to add user.", "error");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("AJAX error:", status, error);
+                displayToastMessage("Error", "An error occurred: " + status + " - " + error, "error");
+            }
+        });
+    }
+
+
+
+
+
 
     function SaveRecord() {
-        var Com = {};
-        Com.DriverID = $("#DriverID").val();
-        Com.DriverName = $("#DriverName").val();
+        var Drivers = {}
+        Drivers.DriverID = $("#DriverID").val();
+        Drivers.DriverName = $("#DriverName").val();
+        Drivers.Carrier = $("#Carrier").val();
+        Drivers.DriverEmail = $("#DriverEmail").val();
+        Drivers.DriverPhone = $("#DriverPhone").val();
+        Drivers.DriverAddress = $("#DriverAddress").val();
 
-        if (Com.DriverName == "" || Com.DriverName == 0) {
-            bootbox.alert("Please Enter Proper Driver Name");
-            $("#DriverName").val();
-            return;
-        }
+        //if (Brooker.BrookerMC == "" || Brooker.BrookerMC == null || Brooker.BrookerMC == 0) {
+        //    bootbox.alert("Please Enter BrokerMC#");
+        //    return
+        //}
+        //if (Brooker.BrookerBusinessName == "" || Brooker.BrookerBusinessName == null || Brooker.BrookerBusinessName == 0) {
+        //    bootbox.alert("Please Enter Brooker Business Name");
+        //    return
+        //}
         $.ajax({
             type: "POST",
             url: "/Drivers/Create",
-            data: JSON.stringify({ Com }),
+            data: JSON.stringify({ Drivers }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            async: false,
             success: function (r) {
-                var data = r.split(",");
-                if (data[0] == 'rcode') {
-                    bootbox.alert("This Driver already Exist");
-                    $("#DriverID").focus();
-                    return;
-                }
-                else if (data[0] == 'true') {
-                    objproduct.CatagoryID = data[1];
-                    if (flagImageExist == 0) {
-                        window.location.href = "/Drivers/Index";
-                    }
-                }
+               /* console.log(r); // Log the response for debugging*/
+                window.location.href = "/Drivers/Index";
             },
             error: function (x, e) {
-                bootbox.alert("Error");
-                return;
-            },
+              /*  console.log(e); // Log any errors for debugging*/
+                // Handle errors here
+            }
         });
     }
+
+
+
 
 </script>
 

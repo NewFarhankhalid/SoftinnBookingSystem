@@ -122,26 +122,46 @@
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BrookerController.cs" />
+    <Compile Include="Controllers\CarrierAuthorityController.cs" />
+    <Compile Include="Controllers\CarrierDocumentsController.cs" />
+    <Compile Include="Controllers\CarrierFactoringController.cs" />
+    <Compile Include="Controllers\CarrierInsuranceController.cs" />
+    <Compile Include="Controllers\CarrierProfileController.cs" />
+    <Compile Include="Controllers\ComodityController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
+    <Compile Include="Controllers\DispatcherController.cs" />
     <Compile Include="Controllers\DriversController.cs" />
     <Compile Include="Controllers\DriverStatusController.cs" />
     <Compile Include="Controllers\EmployeeInfoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoadController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\VehicleController.cs" />
     <Compile Include="DropDown.cs" />
     <Compile Include="General.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Accessories.cs" />
     <Compile Include="Models\AssignDrivers.cs" />
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Brooker.cs" />
+    <Compile Include="Models\CarrierAuthority.cs" />
+    <Compile Include="Models\CarrierDocuments.cs" />
+    <Compile Include="Models\CarrierFactoring.cs" />
+    <Compile Include="Models\CarrierInsurance.cs" />
+    <Compile Include="Models\CarrierProfile.cs" />
+    <Compile Include="Models\Comodity.cs" />
     <Compile Include="Models\Companies.cs" />
+    <Compile Include="Models\Dispatcher.cs" />
     <Compile Include="Models\Drivers.cs" />
+    <Compile Include="Models\DriverStatus.cs" />
+    <Compile Include="Models\DriverUserAssignment.cs" />
+    <Compile Include="Models\EmployeeInfo.cs" />
     <Compile Include="Models\Load.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\Users.cs" />
+    <Compile Include="Models\Vehicle.cs" />
     <Compile Include="Models\W9Form.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

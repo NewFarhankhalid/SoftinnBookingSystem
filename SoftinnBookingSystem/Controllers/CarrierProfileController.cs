@@ -32,6 +32,7 @@ namespace SoftinnBookingSystem.Controllers
 
             return View(obj);
         }
+
         [HttpPost]
         public ActionResult Create(CarrierProfile CP, HttpPostedFileBase MCCertificate, HttpPostedFileBase W9Form, HttpPostedFileBase CertificateOfInsurance, HttpPostedFileBase NOA, HttpPostedFileBase Other1, HttpPostedFileBase Other2)
         {
@@ -408,14 +409,10 @@ namespace SoftinnBookingSystem.Controllers
                 {
                     bi.CompanyName = dr["CompanyName"].ToString();
                 }
-
                 lstCarrierProfile.Add(bi); 
             }
-
             return lstCarrierProfile;
         }
-
-
 
         List<CarrierProfile> DataTableToObject(DataTable dt)
         {
@@ -548,7 +545,6 @@ namespace SoftinnBookingSystem.Controllers
                 {
                     bi.FactoringCompanyName = (dr["CompanyName"].ToString());
                 }
-
                 if (dr["FactoringCompanyNumber"] != DBNull.Value)
                 {
                     bi.FactoringCompanyNumber = (dr["FactoringCompanyNumber"].ToString());
